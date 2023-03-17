@@ -1,0 +1,13 @@
+{
+	"autodeskProduct":	"Fusion360",
+	"type":	"addin",
+	"id":	"312260ee-eac3-4a42-b1e3-ab4ae9fd658f",
+	"author":	"kantoku",
+	"description":	{
+		"":	"SheetMetal support"
+	},
+	"version":	"0.0.1",
+	"runOnStartup":	false,
+	"supportedOS":	"windows|mac",
+	"editEnabled":	true
+}
