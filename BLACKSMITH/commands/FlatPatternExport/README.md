@@ -1,5 +1,55 @@
 # **エクスポート**
 
+This command exports a DXF of the flat pattern of the active document together.
+
+<u>The documentation is only available in English and Japanese, but the display switches with each Fusion360 language setting.
+If the display is inappropriate, please contact us and we will correct it.</u>
+
+---
+
+## **Usage** :
+
+After activation of the add-in, the "Export" command will be added within "Sheet Metal" - "Modify".
+
+![Alt text](./resources_readme/menu_eng.png)
+
+By clicking on it, a dialog box will appear.
+
+![Alt text](./resources_readme/dialog_eng.png)
++ A : Select the destination folder.
++ B : Check the components to be output.
+  + A : The components for which flat patterns have been created will be listed.
+  + B : Check the components for which a flat pattern has been created.
+
+---
+
+## **Deliverables** :
+
+The file will be exported in the specified folder.
++ The file name will be "component name" + "sheet metal rule name" + "thickness" + extension.
++ If there is already an identical file name, the file name will be "_(number)" in the file name. (It will not be overwritten.)
++ If there is an unsuitable character in the component name, it will be replaced by "_" in the file name.
+
+---
+
+## **Note** :
+
+- Exporting 3D is disabled because it causes Fusion360 to crash.
+
+---
+
+## **Action** :
+
+The following environment is confirmed.
+
+- Fusion360 Ver2.0.15509
+- Windows 10 64bit Pro , Home
+
+---
+---
+
+# *** 以下は日本語です。***
+
 本コマンドは、アクティブなドキュメントのフラットパターンのDXFをまとめてエクスポートします。
 
 ---
@@ -39,7 +89,7 @@
 
 以下の環境で確認しています。
 
-- Fusion360 Ver2.0.12670
+- Fusion360 Ver2.0.15509
 - Windows10 64bit Pro , Home
 
 ---

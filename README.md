@@ -1,6 +1,41 @@
 # ***Fusion360 BLACKSMITH***
+This is an add-in for the Autodesk software Fusion360.
+
+It will help you with sheet metal work for a little bit.
 
 ---
+
+## **Installation**:
+
+To install, download/extract the zip file and register the "NEKONOTE" folder as an **add-in**.
+
+To register add-ins, follow the instructions [here](https://knowledge.autodesk.com/support/fusion-360/troubleshooting/caas/sfdcarticles/sfdcarticles/How-to-install-an-ADD-IN-and-Script-in-Fusion-360.html).
+
+---
+
+## **Command List**:
+Please see the description for each command.
+
++ [export](. /BLACKSMITH/commands/FlatPatternExport/) : Export a batch of flat patterns.
+
+---
+
+## **Action** :
+
+The following environment is confirmed.
+
+- Fusion360 Ver2.0.15509
+- Windows10 64bit Pro , Home
+
+---
+
+## **License**:
+- Apache License 2.0
+
+---
+
+# *** 以下は日本語です。***
+
 
 これは、オートデスクソフトウェア「Fusion360」のアドインです。
 
@@ -20,6 +55,7 @@
 コマンドについては、各コマンド毎の説明をご覧ください。
 
 + [エクスポート](./BLACKSMITH/commands/FlatPatternExport/) : フラットパターンをまとめてエクスポートします。
+
 ---
 
 ## **アクション** :

@@ -1,0 +1,79 @@
+{
+    "de-DE": {
+        "jp": "ドイツ語",
+        "Export": "Exportieren",
+        "Export flat pattern": "Das Flatpattern exportieren",
+        "Folder": "Ordner",
+        "Check on components to export": "Setzen Sie ein Häkchen bei den zu exportierenden Komponenten."
+    },
+    "en-US": {
+        "jp": "英語",
+        "Export": "Export",
+        "Export flat pattern": "Export flat pattern",
+        "Folder": "Folder",
+        "Check on components to export": "Check on components to export"
+    },
+    "es-ES": {
+        "jp": "スペイン語",
+        "Export": "Exportar",
+        "Export flat pattern": "Exportar el patrón plano",
+        "Folder": "Carpeta",
+        "Check on components to export": "Marque las componentes a exportar con una marca de verificación"
+    },
+    "fr-FR": {
+        "jp": "フランス語",
+        "Export": "Exporter",
+        "Export flat pattern": "Exporter le patron à plat",
+        "Folder": "Dossier",
+        "Check on components to export": "Veuillez cocher les composants à exporter"
+    },
+    "it-IT": {
+        "jp": "イタリア語",
+        "Export": "Esportare",
+        "Export flat pattern": "Esporta modello piatto",
+        "Folder": "Cartella",
+        "Check on components to export": "Spunta i componenti che vuoi esportare"
+    },
+    "ja-JP": {
+        "jp": "日本語",
+        "Export": "エクスポート",
+        "Export flat pattern": "フラットパターンをエクスポートします",
+        "Folder": "フォルダ",
+        "Check on components to export": "エクスポートするコンポーネントにチェックを入れて下さい"
+    },
+    "ko-KR": {
+        "jp": "韓国語",
+        "Export": "내보내기",
+        "Export flat pattern": "평면 패턴을 내보냅니다",
+        "Folder": "폴더",
+        "Check on components to export": "내보낼 컴포넌트에 체크 표시를 넣어주세요"
+    },
+    "zh-CN": {
+        "jp": "中国語",
+        "Export": "导出",
+        "Export flat pattern": "导出平面图案",
+        "Folder": "文件夹",
+        "Check on components to export": "请在要导出的组件上打勾"
+    },
+    "pl-PL": {
+        "jp": "ポーランド",
+        "Export": "Eksportuj",
+        "Export flat pattern": "Eksportuj wzór płaski",
+        "Folder": "Folder",
+        "Check on components to export": "Proszę zaznaczyć komponenty do wyeksportowania w celu ich wyboru"
+    },
+    "pt-BR": {
+        "jp": "ポルトガル_ブラジル",
+        "Export": "Exportar",
+        "Export flat pattern": "Exportar o padrão plano",
+        "Folder": "Pasta",
+        "Check on components to export": "Marque os componentes a serem exportados"
+    },
+    "tr-TR": {
+        "jp": "トルコ",
+        "Export": "Dışa Aktar",
+        "Export flat pattern": "Düz deseni dışa aktar",
+        "Folder": "Klasör",
+        "Check on components to export": "Aktarılacak bileşenleri işaretleyin"
+    }
+}

@@ -5,16 +5,19 @@ from ...lib import fusion360utils as futil
 from ... import config
 from .FlatPatternExportFactry import FlatPatternExportFactry
 import pathlib
+from .LanguageMessage import LanguageMessage
 
 app = core.Application.get()
 ui = app.userInterface
 
+# lang msg
+_lm = LanguageMessage()
 
 # TODO *** コマンドのID情報を指定します。 ***
-
 CMD_ID = f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_flat_export_dxf'
-CMD_NAME = 'エクスポート'
-CMD_Description = 'フラットパターンをエクスポートします。'
+CMD_NAME = _lm.s('Export')
+CMD_Description = _lm.s('Export flat pattern')
+
 # パネルにコマンドを昇格させることを指定します。
 IS_PROMOTED = True
 
@@ -47,9 +50,9 @@ ICON_FOLDER = os.path.join(
 # それらは解放されず、ガベージコレクションされません。
 local_handlers = []
 
+# inputs
 _pathButtonIpt: core.BoolValueCommandInput = None
 _pathTxtIpt: core.TextBoxCommandInput = None
-
 # _optButtonIpt: core.ButtonRowCommandInput = None
 _options = (
     ('DXF', True, str(pathlib.Path(ICON_FOLDER) / 'dxf')),
@@ -57,11 +60,8 @@ _options = (
     ('IGES', False, str(pathlib.Path(ICON_FOLDER) / 'igs')),
     ('SAT', False, str(pathlib.Path(ICON_FOLDER) / 'sat')),
 )
-
 _table: core.TableCommandInput = None
-
 _fact: 'FlatPatternExportFactry' = None
-
 
 # アドイン実行時に実行されます。
 def start():
@@ -151,7 +151,7 @@ def command_created(args: core.CommandCreatedEventArgs):
     global _pathButtonIpt
     _pathButtonIpt = inputs.addBoolValueInput(
         '_pathButtonIptId',
-        'フォルダ',
+        _lm.s('Folder'),
         False,
         str(pathlib.Path(ICON_FOLDER) / 'folder'),
         False
@@ -172,7 +172,7 @@ def command_created(args: core.CommandCreatedEventArgs):
     # フラットパターン
     groupFlatIpt: core.GroupCommandInput = inputs.addGroupCommandInput(
         'groupFlatIptId',
-        'エクスポートするコンポーネントにチェックを入れて下さい'
+        _lm.s('Check on components to export'),
     )
     groupFlatIpt.isExpanded = True
     flatInputs = groupFlatIpt.children
