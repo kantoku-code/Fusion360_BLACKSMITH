@@ -16,7 +16,7 @@ To register add-ins, follow the instructions [here](https://knowledge.autodesk.c
 ## **Command List**:
 Please see the description for each command.
 
-+ [export](. /BLACKSMITH/commands/FlatPatternExport/) : Export a batch of flat patterns.
++ [export](./BLACKSMITH/commands/FlatPatternExport/) : Export a batch of flat patterns.
 
 ---
 
