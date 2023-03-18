@@ -1,4 +1,4 @@
-# **エクスポート**
+# **Export**
 
 This command exports a DXF of the flat pattern of the active document together.
 
@@ -50,6 +50,7 @@ The following environment is confirmed.
 
 # *** 以下は日本語です。***
 
+# **エクスポート**
 本コマンドは、アクティブなドキュメントのフラットパターンのDXFをまとめてエクスポートします。
 
 ---
