@@ -6,6 +6,8 @@ from ... import config
 from .FlatPatternExportFactry import FlatPatternExportFactry
 import pathlib
 from .LanguageMessage import LanguageMessage
+import platform
+import subprocess
 
 app = core.Application.get()
 ui = app.userInterface
@@ -272,6 +274,7 @@ def command_execute(args: core.CommandEventArgs):
         _pathTxtIpt.text,
     )
 
+    open_folder(_pathTxtIpt.text)
 
 def get_check_on_indexs(table: core.TableCommandInput) -> list:
     '''
@@ -325,3 +328,17 @@ def get_folder_path():
         return dialog.folder
 
     return ''
+
+def open_folder(folderPath: str) -> None:
+    '''
+    フォルダーを開く
+    '''
+    path = pathlib.Path(folderPath)
+
+    if not path.exists():
+        return
+
+    if platform.system() == 'Windows':
+        os.startfile(str(path))
+    else:
+        subprocess.check_call(["open", "--", str(path)])
