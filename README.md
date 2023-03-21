@@ -56,7 +56,7 @@ The following environment is confirmed.
 ## **コマンドリスト**:
 コマンドについては、各コマンド毎の説明をご覧ください。
 
-+ [エクスポート](./BLACKSMITH/commands/FlatPatternExport/) : フラットパターンをまとめてエクスポートします。
++ [エクスポート](./BLACKSMITH/commands/SheetMetalExport/) : フラットパターンをまとめてエクスポートします。
 + [ソリッドへ変換](./BLACKSMITH/commands/Convert2SolidBody/) : シートメタルボディをソリッドボディへ変換します。
 
 ---
