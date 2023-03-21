@@ -1,0 +1,79 @@
+{
+    "de-DE": {
+        "jp": "ドイツ語",
+        "Convert to Solid": "In Festkörper umwandeln",
+        "Convert sheet metal body to solid body": "Blechkörper in Festkörper umwandeln",
+        "Sheet Metal Body": "Blechkörper",
+        "Select sheet metal body to convert": "Zu konvertierenden Blechkörper auswählen"
+    },
+    "en-US": {
+        "jp": "英語",
+        "Convert to Solid": "Convert to Solid",
+        "Convert sheet metal body to solid body": "Convert sheet metal body to solid body",
+        "Sheet Metal Body": "Sheet Metal Body",
+        "Select sheet metal body to convert": "Select sheet metal body to convert"
+    },
+    "es-ES": {
+        "jp": "スペイン語",
+        "Convert to Solid": "Convertir en sólido",
+        "Convert sheet metal body to solid body": "Convertir cuerpo de chapa en cuerpo sólido",
+        "Sheet Metal Body": "Cuerpo de chapa",
+        "Select sheet metal body to convert": "Seleccionar cuerpo de chapa para convertir"
+    },
+    "fr-FR": {
+        "jp": "フランス語",
+        "Convert to Solid": "Convert to Solid",
+        "Convert sheet metal body to solid body": "Convertir le corps en tôle en corps solide",
+        "Sheet Metal Body": "Corps en tôle",
+        "Select sheet metal body to convert": "Sélectionner le corps en tôle à convertir"
+    },
+    "it-IT": {
+        "jp": "イタリア語",
+        "Convert to Solid": "Convertire in solido",
+        "Convert sheet metal body to solid body": "Convertire corpo in lamiera in corpo solido",
+        "Sheet Metal Body": "Corpo in lamiera",
+        "Select sheet metal body to convert": "Selezionare il corpo in lamiera da convertire"
+    },
+    "ja-JP": {
+        "jp": "日本語",
+        "Convert to Solid": "ソリッドへ変換",
+        "Convert sheet metal body to solid body": "シートメタルボディをソリッドボディへ変換します",
+        "Sheet Metal Body": "シートメタルボディ",
+        "Select sheet metal body to convert": "変換するシートメタルボディの選択"
+    },
+    "ko-KR": {
+        "jp": "韓国語",
+        "Convert to Solid": "솔리드로 변환",
+        "Convert sheet metal body to solid body": "판금 바디를 솔리드 바디로 변환",
+        "Sheet Metal Body": "시트 메탈 바디",
+        "Select sheet metal body to convert": "변환할 판금 바디 선택"
+    },
+    "zh-CN": {
+        "jp": "中国語",
+        "Convert to Solid": "转换为实体",
+        "Convert sheet metal body to solid body": "将金属板体转换为实体体",
+        "Sheet Metal Body": "钣金车身",
+        "Select sheet metal body to convert": "选择要转换的钣金件"
+    },
+    "pl-PL": {
+        "jp": "ポーランド",
+        "Convert to Solid": "Convert to Solid",
+        "Convert sheet metal body to solid body": "Convert sheet metal body to solid body",
+        "Sheet Metal Body": "Sheet Metal Body",
+        "Select sheet metal body to convert": "Wybierz ciało z blachy do konwersji"
+    },
+    "pt-BR": {
+        "jp": "ポルトガル_ブラジル",
+        "Convert to Solid": "Converter-se em sólido",
+        "Convert sheet metal body to solid body": "Converter corpo em chapa metálica em corpo sólido",
+        "Sheet Metal Body": "Corpo em chapa metálica",
+        "Select sheet metal body to convert": "Seleccionar corpo de chapa para converter"
+    },
+    "tr-TR": {
+        "jp": "トルコ",
+        "Convert to Solid": "Katıya Dönüştür",
+        "Convert sheet metal body to solid body": "Sac gövdeyi yekpare gövdeye dönüştürün",
+        "Sheet Metal Body": "Sac Metal Gövde",
+        "Select sheet metal body to convert": "Dönüştürmek için sac gövde seçin"
+    }
+}

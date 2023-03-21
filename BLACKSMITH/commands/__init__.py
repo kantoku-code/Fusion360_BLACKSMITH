@@ -5,11 +5,13 @@
 # You need to use aliases (import "entry" as "my_module") assuming you have the default module named "entry".
 
 from .FlatPatternExport import entry as FlatPatternExport
+from .Convert2SolidBody import entry as Convert2SolidBody
 
 # TODO add your imported modules to this list.
 # Fusion will automatically call the start() and stop() functions.
 commands = [
     FlatPatternExport,
+    Convert2SolidBody,
 ]
 
 
