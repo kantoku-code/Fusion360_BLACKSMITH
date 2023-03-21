@@ -1,0 +1,79 @@
+{
+    "de-DE": {
+        "jp": "ドイツ語",
+        "Export": "Exportieren",
+        "Create and export a flat pattern from a SheetMetal Body.": "Erstellen und Exportieren eines flachen Musters aus einem SheetMetal Body.",
+        "Folder": "Ordner",
+        "Place a check mark in the body/component to be exported": "Aktivieren Sie die Kontrollkästchen für die zu exportierenden Körper/Komponenten"
+    },
+    "en-US": {
+        "jp": "英語",
+        "Export": "Export",
+        "Create and export a flat pattern from a SheetMetal Body.": "Create and export a flat pattern from a SheetMetal Body.",
+        "Folder": "Folder",
+        "Place a check mark in the body/component to be exported": "Place a check mark in the body/component to be exported"
+    },
+    "es-ES": {
+        "jp": "スペイン語",
+        "Export": "Exportar",
+        "Create and export a flat pattern from a SheetMetal Body.": "Crear y exportar un patrón plano de un cuerpo SheetMetal.",
+        "Folder": "Carpeta",
+        "Place a check mark in the body/component to be exported": "Marque el cuerpo/componente que desea exportar"
+    },
+    "fr-FR": {
+        "jp": "フランス語",
+        "Export": "Exporter",
+        "Create and export a flat pattern from a SheetMetal Body.": "Créer et exporter un modèle plat à partir d'un corps en tôle.",
+        "Folder": "Dossier",
+        "Place a check mark in the body/component to be exported": "Cocher la case du corps/composant à exporter"
+    },
+    "it-IT": {
+        "jp": "イタリア語",
+        "Export": "Esportare",
+        "Create and export a flat pattern from a SheetMetal Body.": "Creare ed esportare un modello piatto da un corpo in lamiera.",
+        "Folder": "Cartella",
+        "Place a check mark in the body/component to be exported": "Mettere un segno di spunta nel corpo/componente da esportare"
+    },
+    "ja-JP": {
+        "jp": "日本語",
+        "Export": "エクスポート",
+        "Create and export a flat pattern from a SheetMetal Body.": "シートメタルボディからフラットパターンを作成しエクスポートします。",
+        "Folder": "フォルダ",
+        "Place a check mark in the body/component to be exported": "エクスポートするボディ/コンポーネントにチェックマークを入れて下さい"
+    },
+    "ko-KR": {
+        "jp": "韓国語",
+        "Export": "내보내기",
+        "Create and export a flat pattern from a SheetMetal Body.": "시트메탈 바디에서 평면 패턴 생성 및 내보내기.",
+        "Folder": "폴더",
+        "Place a check mark in the body/component to be exported": "내보낼 본문/컴포넌트에 체크 표시를 합니다"
+    },
+    "zh-CN": {
+        "jp": "中国語",
+        "Export": "导出",
+        "Create and export a flat pattern from a SheetMetal Body.": "从钣金车身创建并导出平面图案。",
+        "Folder": "文件夹",
+        "Place a check mark in the body/component to be exported": "在要导出的主体/组件上打上一个复选标记"
+    },
+    "pl-PL": {
+        "jp": "ポーランド",
+        "Export": "Eksportuj",
+        "Create and export a flat pattern from a SheetMetal Body.": "Utwórz i wyeksportuj płaski wzór z korpusu SheetMetal.",
+        "Folder": "Folder",
+        "Place a check mark in the body/component to be exported": "Umieść zaznaczenie w korpusie/komponencie, który ma być eksportowany"
+    },
+    "pt-BR": {
+        "jp": "ポルトガル_ブラジル",
+        "Export": "Exportar",
+        "Create and export a flat pattern from a SheetMetal Body.": "Criar e exportar um padrão plano a partir de um Corpo de Chapas de Metal.",
+        "Folder": "Pasta",
+        "Place a check mark in the body/component to be exported": "Colocar uma marca de verificação no corpo/componente a ser exportado"
+    },
+    "tr-TR": {
+        "jp": "トルコ",
+        "Export": "Dışa Aktar",
+        "Create and export a flat pattern from a SheetMetal Body.": "Bir SheetMetal Gövdeden düz bir desen oluşturun ve dışa aktarın.",
+        "Folder": "Klasör",
+        "Place a check mark in the body/component to be exported": "Dışa aktarılacak gövdeye/bileşene bir onay işareti koyun"
+    }
+}

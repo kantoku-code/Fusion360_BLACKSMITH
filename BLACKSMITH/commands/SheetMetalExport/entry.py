@@ -3,7 +3,7 @@ import adsk.fusion as fusion
 import os
 from ...lib import fusion360utils as futil
 from ... import config
-from .FlatPatternExportFactry import FlatPatternExportFactry
+from .SheetMetalExportFactry import SheetMetalExportFactry
 import pathlib
 from .LanguageMessage import LanguageMessage
 import platform
@@ -16,12 +16,12 @@ ui = app.userInterface
 _lm = LanguageMessage()
 
 # TODO *** コマンドのID情報を指定します。 ***
-CMD_ID = f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_flat_export_dxf'
+CMD_ID = f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_sheetmetal_export_dxf'
 CMD_NAME = _lm.s('Export')
-CMD_Description = _lm.s('Export flat pattern')
+CMD_Description = _lm.s('Create and export a flat pattern from a SheetMetal Body.')
 
 # パネルにコマンドを昇格させることを指定します。
-IS_PROMOTED = False
+IS_PROMOTED = True
 
 # TODO *** コマンドボタンが作成される場所を定義します。 ***
 # これは、ワークスペース、タブ、パネル、および 
@@ -55,15 +55,8 @@ local_handlers = []
 # inputs
 _pathButtonIpt: core.BoolValueCommandInput = None
 _pathTxtIpt: core.TextBoxCommandInput = None
-# _optButtonIpt: core.ButtonRowCommandInput = None
-_options = (
-    ('DXF', True, str(pathlib.Path(ICON_FOLDER) / 'dxf')),
-    ('STEP', False, str(pathlib.Path(ICON_FOLDER) / 'stp')),
-    ('IGES', False, str(pathlib.Path(ICON_FOLDER) / 'igs')),
-    ('SAT', False, str(pathlib.Path(ICON_FOLDER) / 'sat')),
-)
 _table: core.TableCommandInput = None
-_fact: 'FlatPatternExportFactry' = None
+_fact: 'SheetMetalExportFactry' = None
 
 # アドイン実行時に実行されます。
 def start():
@@ -123,7 +116,7 @@ def command_created(args: core.CommandCreatedEventArgs):
 
     # factry
     global _fact
-    _fact = FlatPatternExportFactry()
+    _fact = SheetMetalExportFactry()
 
     # **inputs**
     inputs: core.CommandInputs = cmd.commandInputs
@@ -160,21 +153,10 @@ def command_created(args: core.CommandCreatedEventArgs):
     )
     tableFolder.addCommandInput(_pathButtonIpt, 1, 1)
 
-    # フォーマット
-    # global _optButtonIpt, _options
-    # _optButtonIpt = inputs.addButtonRowCommandInput(
-    #     '_optButtonIptId',
-    #     'フォーマット',
-    #     True
-    # )
-    # optItems: core.ListItems = _optButtonIpt.listItems
-    # for opt in _options:
-    #      optItems.add(opt[0], opt[1], opt[2])
-
     # フラットパターン
     groupFlatIpt: core.GroupCommandInput = inputs.addGroupCommandInput(
         'groupFlatIptId',
-        _lm.s('Check on components to export'),
+        _lm.s('Place a check mark in the body/component to be exported'),
     )
     groupFlatIpt.isExpanded = True
     flatInputs = groupFlatIpt.children
@@ -184,18 +166,18 @@ def command_created(args: core.CommandCreatedEventArgs):
         '_tableId',
         'Table',
         0,
-        '1:5'
+        '1:3:3'
     )
     _table.hasGrid = False
     tableStyle = core.TablePresentationStyles
     _table.tablePresentationStyle = tableStyle.itemBorderTablePresentationStyle
-    rowCount = len(_fact.flatInfos)
+    rowCount = len(_fact.sheetInfos)
     if rowCount > 10:
         _table.maximumVisibleRows = 10
     elif rowCount > 4:
         _table.maximumVisibleRows = rowCount
 
-    for idx, info in enumerate(_fact.flatInfos):
+    for idx, info in enumerate(_fact.sheetInfos):
         chk: core.BoolValueCommandInput = flatInputs.addBoolValueInput(
             f'check_{idx}',
             'Checkbox',
@@ -205,12 +187,19 @@ def command_created(args: core.CommandCreatedEventArgs):
         )
         _table.addCommandInput(chk, idx, 0)
 
+        bodyName: core.StringValueCommandInput = flatInputs.addStringValueInput(
+            f'body_{idx}',
+            'body name',
+            info["native"].name,)
+        bodyName.isReadOnly = True
+        _table.addCommandInput(bodyName, idx, 1)
+
         compName: core.StringValueCommandInput = flatInputs.addStringValueInput(
             f'comp_{idx}',
             'comp name',
-            info["comp"].name,)
+           info["native"].parentComponent.name,)
         compName.isReadOnly = True
-        _table.addCommandInput(compName, idx, 1)
+        _table.addCommandInput(compName, idx, 2)
 
     # **event**
     futil.add_handler(
@@ -240,11 +229,6 @@ def command_created(args: core.CommandCreatedEventArgs):
 
 def command_validateInputs(args: core.ValidateInputsEventArgs):
 
-    # global _optButtonIpt
-    # if len(get_check_on_option_indexs(_optButtonIpt)) < 1:
-    #     args.areInputsValid = False
-    #     return
-
     global _table
     if len(get_check_on_indexs(_table)) < 1:
         args.areInputsValid = False
@@ -267,14 +251,13 @@ def command_execute(args: core.CommandEventArgs):
     global _table
     global _optButtonIpt
     global _fact, _pathTxtIpt
-    _fact.exec_export(
+    _fact.export_sheetMetal_flatPattern(
         get_check_on_indexs(_table),
-        # get_check_on_option_indexs(_optButtonIpt),
-        ['DXF'],
         _pathTxtIpt.text,
     )
 
     open_folder(_pathTxtIpt.text)
+
 
 def get_check_on_indexs(table: core.TableCommandInput) -> list:
     '''
@@ -292,18 +275,6 @@ def get_check_on_indexs(table: core.TableCommandInput) -> list:
             indexs.append(int(inputs.id.split('_')[-1]))
 
     return indexs
-
-
-# def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
-#     '''
-#     チェックONのフォーマットを取得
-#     '''
-#     optLst = []
-#     for opt in dropIpt.listItems:
-#         if opt.isSelected:
-#             optLst.append(opt.name)
-
-#     return optLst
 
 
 def command_inputChanged(args: core.InputChangedEventArgs):
@@ -328,6 +299,7 @@ def get_folder_path():
         return dialog.folder
 
     return ''
+
 
 def open_folder(folderPath: str) -> None:
     '''
