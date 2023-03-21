@@ -16,7 +16,7 @@ To register add-ins, follow the instructions [here](https://knowledge.autodesk.c
 ## **Command List**:
 Please see the description for each command.
 
-+ [Export](./BLACKSMITH/commands/FlatPatternExport/) : Export a batch of flat patterns.
++ [Export](./BLACKSMITH/commands/SheetMetalExport/) : Export a batch of flat patterns.
 + [Convert to Solid](./BLACKSMITH/commands/Convert2SolidBody/) : Convert sheet metal body to solid body.
 
 ---
