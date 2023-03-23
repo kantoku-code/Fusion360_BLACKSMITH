@@ -4,7 +4,7 @@
 # If you want to add an additional command, duplicate one of the existing directories and import it here.
 # You need to use aliases (import "entry" as "my_module") assuming you have the default module named "entry".
 
-# from .FlatPatternExport import entry as FlatPatternExport
+from .FlatPatternExport import entry as FlatPatternExport
 from .Convert2SolidBody import entry as Convert2SolidBody
 from .SheetMetalExport import entry as SheetMetalExport
 
@@ -12,7 +12,7 @@ from .SheetMetalExport import entry as SheetMetalExport
 # Fusion will automatically call the start() and stop() functions.
 commands = [
     SheetMetalExport,
-    # FlatPatternExport,
+    FlatPatternExport,
     Convert2SolidBody,
 ]
 

@@ -17,7 +17,7 @@ _lm = LanguageMessage()
 
 # TODO *** コマンドのID情報を指定します。 ***
 CMD_ID = f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_flat_export_dxf'
-CMD_NAME = _lm.s('Export')
+CMD_NAME = _lm.s('Exportsssssss')
 CMD_Description = _lm.s('Export flat pattern')
 
 # パネルにコマンドを昇格させることを指定します。
@@ -55,11 +55,11 @@ local_handlers = []
 # inputs
 _pathButtonIpt: core.BoolValueCommandInput = None
 _pathTxtIpt: core.TextBoxCommandInput = None
-# _optButtonIpt: core.ButtonRowCommandInput = None
+_optButtonIpt: core.ButtonRowCommandInput = None
 _options = (
     ('DXF', True, str(pathlib.Path(ICON_FOLDER) / 'dxf')),
-    ('STEP', False, str(pathlib.Path(ICON_FOLDER) / 'stp')),
-    ('IGES', False, str(pathlib.Path(ICON_FOLDER) / 'igs')),
+    # ('STEP', False, str(pathlib.Path(ICON_FOLDER) / 'stp')),
+    # ('IGES', False, str(pathlib.Path(ICON_FOLDER) / 'igs')),
     ('SAT', False, str(pathlib.Path(ICON_FOLDER) / 'sat')),
 )
 _table: core.TableCommandInput = None
@@ -161,15 +161,15 @@ def command_created(args: core.CommandCreatedEventArgs):
     tableFolder.addCommandInput(_pathButtonIpt, 1, 1)
 
     # フォーマット
-    # global _optButtonIpt, _options
-    # _optButtonIpt = inputs.addButtonRowCommandInput(
-    #     '_optButtonIptId',
-    #     'フォーマット',
-    #     True
-    # )
-    # optItems: core.ListItems = _optButtonIpt.listItems
-    # for opt in _options:
-    #      optItems.add(opt[0], opt[1], opt[2])
+    global _optButtonIpt, _options
+    _optButtonIpt = inputs.addButtonRowCommandInput(
+        '_optButtonIptId',
+        'フォーマット',
+        True
+    )
+    optItems: core.ListItems = _optButtonIpt.listItems
+    for opt in _options:
+         optItems.add(opt[0], opt[1], opt[2])
 
     # フラットパターン
     groupFlatIpt: core.GroupCommandInput = inputs.addGroupCommandInput(
@@ -240,10 +240,10 @@ def command_created(args: core.CommandCreatedEventArgs):
 
 def command_validateInputs(args: core.ValidateInputsEventArgs):
 
-    # global _optButtonIpt
-    # if len(get_check_on_option_indexs(_optButtonIpt)) < 1:
-    #     args.areInputsValid = False
-    #     return
+    global _optButtonIpt
+    if len(get_check_on_option_indexs(_optButtonIpt)) < 1:
+        args.areInputsValid = False
+        return
 
     global _table
     if len(get_check_on_indexs(_table)) < 1:
@@ -269,8 +269,8 @@ def command_execute(args: core.CommandEventArgs):
     global _fact, _pathTxtIpt
     _fact.exec_export(
         get_check_on_indexs(_table),
-        # get_check_on_option_indexs(_optButtonIpt),
-        ['DXF'],
+        get_check_on_option_indexs(_optButtonIpt),
+        # ['DXF'],
         _pathTxtIpt.text,
     )
 
@@ -294,16 +294,16 @@ def get_check_on_indexs(table: core.TableCommandInput) -> list:
     return indexs
 
 
-# def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
-#     '''
-#     チェックONのフォーマットを取得
-#     '''
-#     optLst = []
-#     for opt in dropIpt.listItems:
-#         if opt.isSelected:
-#             optLst.append(opt.name)
+def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
+    '''
+    チェックONのフォーマットを取得
+    '''
+    optLst = []
+    for opt in dropIpt.listItems:
+        if opt.isSelected:
+            optLst.append(opt.name)
 
-#     return optLst
+    return optLst
 
 
 def command_inputChanged(args: core.InputChangedEventArgs):

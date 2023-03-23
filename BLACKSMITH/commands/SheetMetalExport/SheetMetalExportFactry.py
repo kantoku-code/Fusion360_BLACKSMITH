@@ -5,13 +5,20 @@ import adsk.fusion as fusion
 import pathlib
 import re
 
+SUFFIX_MAP = {
+    'DXF': '.dxf',
+    'STEP': '.stp',
+    'IGES': '.igs',
+    'SAT': '.sat',
+}
+
 class SheetMetalExportFactry():
     def __init__(self) -> None:
         self.app: core.Application = core.Application.get()
         self.sheetInfos = self._get_sheetMetal_body_infos()
 
 
-    def export_sheetMetal_flatPattern(self, sheetBodyIndexList: list, folderPath: str) -> None:
+    def export_sheetMetal_flatPattern(self, sheetBodyIndexList: list, optionList: list, folderPath: str) -> None:
         '''
         フラットパターンを作成してエクスポート
         '''
@@ -21,8 +28,14 @@ class SheetMetalExportFactry():
                 info: dict = self.sheetInfos[idx]
                 try:
                     flat: fusion.FlatPattern = self._create_flatPattern(info['native'])
-                    path = self._get_path(info, folderPath)
-                    self._export_dxf(path, flat)
+                    for suffix in optionList:
+                        path = self._get_path(info, folderPath, SUFFIX_MAP[suffix])
+                        if suffix == 'DXF':
+                            self._export_dxf(path, flat)
+                        elif suffix == 'SAT':
+                            self._export_sat(path, flat)
+                        else:
+                            pass
                 except:
                     continue
         except:
@@ -115,6 +128,16 @@ class SheetMetalExportFactry():
         return infos
 
 
+    def _export_sat(self, path: str, flat: fusion.FlatPattern) -> None:
+        '''
+        SATでエクスポート
+        '''
+
+        tmpMgr: fusion.TemporaryBRepManager = fusion.TemporaryBRepManager.get()
+        bodyLst = [tmpMgr.copy(b) for b in flat.bodies]
+        tmpMgr.exportToFile(bodyLst, path)
+
+
     def _export_dxf(self, path: str, flat: fusion.FlatPattern) -> None:
         '''
         DXFでエクスポート
@@ -130,7 +153,7 @@ class SheetMetalExportFactry():
         expMgr.execute(dxfOpt)
 
 
-    def _get_path(self, info: dict, folderPath: str) -> str:
+    def _get_path(self, info: dict, folderPath: str, suffix: str) -> str:
         '''
         ユニークなファイルパス取得
         '''
@@ -146,7 +169,7 @@ class SheetMetalExportFactry():
         # ********
 
         stem = get_stem_name(info)
-        suffix = '.dxf'
+        # suffix = '.dxf'
         path = pathlib.Path(folderPath) / f'{stem}{suffix}'
         if not path.exists():
             return str(path)

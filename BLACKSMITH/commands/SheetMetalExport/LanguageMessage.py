@@ -18,7 +18,7 @@ LANGS = [
     "pt-BR",# ポルトガル-ブラジル
     "tr-TR",# トルコ
 ]
-DEBUG_LANG = LANGS[7]
+DEBUG_LANG = LANGS[3]
 
 THIS_DIR = pathlib.Path(__file__).resolve().parent
 JSON_PATH = THIS_DIR / 'message.json'

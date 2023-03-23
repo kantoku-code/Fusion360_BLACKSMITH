@@ -26,8 +26,8 @@ class FlatPatternExportFactry():
 
         exportDatas = []
         for info in flats:
-            path = self._get_path(info, optionList, folderPath, exportDatas)
-            exportDatas.append(path)
+            paths = self._get_path(info, optionList, folderPath, exportDatas)
+            exportDatas.extend(paths)
 
         self._exec_export_operation(exportDatas)
 
@@ -65,50 +65,51 @@ class FlatPatternExportFactry():
         '''
         3Dでエクスポート
         '''
-        def get_export_options(path: str) -> fusion.ExportOptions:
-            expMgr: fusion.ExportManager = tmpDes.exportManager
+        # def get_export_options(path: str) -> fusion.ExportOptions:
+        #     expMgr: fusion.ExportManager = tmpDes.exportManager
 
-            suffix = pathlib.Path(path).suffix
-            if suffix == SUFFIX_MAP['STEP']:
-                return expMgr.createSTEPExportOptions(path)
-            elif suffix == SUFFIX_MAP['IGES']:
-                return expMgr.createIGESExportOptions(path)
-            elif suffix == SUFFIX_MAP['SAT']:
-                return expMgr.createSATExportOptions(path)
+        #     suffix = pathlib.Path(path).suffix
+        #     if suffix == SUFFIX_MAP['STEP']:
+        #         return expMgr.createSTEPExportOptions(path)
+        #     elif suffix == SUFFIX_MAP['IGES']:
+        #         return expMgr.createIGESExportOptions(path)
+        #     elif suffix == SUFFIX_MAP['SAT']:
+        #         return expMgr.createSATExportOptions(path)
 
-            return None
+        #     return None
         # ****
 
         flat: fusion.FlatPattern = exportData['flat']
         tmpMgr: fusion.TemporaryBRepManager = fusion.TemporaryBRepManager.get()
-        # bodyLst = [tmpMgr.copy(b) for b in flat.bodies]
-        bodyLst = [
-            tmpMgr.copy(flat.flatBody),
-            tmpMgr.copy(flat.bendLinesBody),
-            # tmpMgr.copy(flatPattan.extentLinesBody), #クラッシュしやすい
-        ]
+        bodyLst = [tmpMgr.copy(b) for b in flat.bodies]
+        tmpMgr.exportToFile(bodyLst, exportData['path'])
+        # bodyLst = [
+        #     tmpMgr.copy(flat.flatBody),
+        #     tmpMgr.copy(flat.bendLinesBody),
+        #     # tmpMgr.copy(flatPattan.extentLinesBody), #クラッシュしやすい
+        # ]
 
-        app: core.Application = self.app
-        doc: fusion.FusionDocument = app.activeDocument
+        # app: core.Application = self.app
+        # doc: fusion.FusionDocument = app.activeDocument
 
-        app.documents.add(core.DocumentTypes.FusionDesignDocumentType)
-        tmpDoc: fusion.FusionDocument = app.activeDocument
-        tmpDes: fusion.Design = app.activeProduct
+        # app.documents.add(core.DocumentTypes.FusionDesignDocumentType)
+        # tmpDoc: fusion.FusionDocument = app.activeDocument
+        # tmpDes: fusion.Design = app.activeProduct
 
-        doc.activate()
+        # doc.activate()
 
-        tmpDes.designType = fusion.DesignTypes.DirectDesignType
-        tmpRoot: fusion.Component = tmpDes.rootComponent
-        tmpBodies: fusion.BRepBodies = tmpRoot.bRepBodies
-        [tmpBodies.add(b) for b in bodyLst]
+        # tmpDes.designType = fusion.DesignTypes.DirectDesignType
+        # tmpRoot: fusion.Component = tmpDes.rootComponent
+        # tmpBodies: fusion.BRepBodies = tmpRoot.bRepBodies
+        # [tmpBodies.add(b) for b in bodyLst]
 
-        expMgr: fusion.ExportManager = tmpDes.exportManager
-        exportOpt: fusion.ExportOptions = get_export_options(exportData['path'])
-        expMgr.execute(exportOpt)
-        tmpDoc.close(False)
+        # expMgr: fusion.ExportManager = tmpDes.exportManager
+        # exportOpt: fusion.ExportOptions = get_export_options(exportData['path'])
+        # expMgr.execute(exportOpt)
+        # tmpDoc.close(False)
 
 
-    def _get_path(self, info: dict, optionList: list, folderPath: str, exportDatas: list) -> dict:
+    def _get_path(self, info: dict, optionList: list, folderPath: str, exportDatas: list) -> list:
         '''
         ユニークなファイルパス取得
         '''
@@ -121,25 +122,37 @@ class FlatPatternExportFactry():
             return False
         # ********
 
+        paths = []
         stem = self._get_stem_name(info)
         for opt in optionList:
             suffix = SUFFIX_MAP[opt]
             path = pathlib.Path(folderPath) / f'{stem}{suffix}'
             if not is_overlap(path):
-                return {
-                    'path':str(path),
-                    'flat':info['comp'].flatPattern,
-                }
+                paths.append(
+                    {
+                        'path':str(path),
+                        'flat':info['comp'].flatPattern,
+                    }
+                )
+                continue
 
             count = 1
             while True:
                 path = path.with_stem(f'{stem}_{count}')
                 if not is_overlap(path):
-                    return {
-                        'path':str(path),
-                        'flat':info['comp'].flatPattern,
-                    }
+                    # return {
+                    #     'path':str(path),
+                    #     'flat':info['comp'].flatPattern,
+                    # }
+                    paths.append(
+                        {
+                            'path':str(path),
+                            'flat':info['comp'].flatPattern,
+                        }
+                    )
+                    break
                 count += 1
+        return paths
 
 
     def _get_stem_name(self, info: dict):

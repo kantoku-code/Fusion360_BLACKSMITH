@@ -6,7 +6,7 @@
 	"description":	{
 		"":	"SheetMetal support"
 	},
-	"version":	"0.0.5",
+	"version":	"0.0.6",
 	"runOnStartup":	false,
 	"supportedOS":	"windows|mac",
 	"editEnabled":	true

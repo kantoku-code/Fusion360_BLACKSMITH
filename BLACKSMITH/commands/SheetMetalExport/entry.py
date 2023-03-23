@@ -55,6 +55,13 @@ local_handlers = []
 # inputs
 _pathButtonIpt: core.BoolValueCommandInput = None
 _pathTxtIpt: core.TextBoxCommandInput = None
+_optButtonIpt: core.ButtonRowCommandInput = None
+_options = (
+    ('DXF', True, str(pathlib.Path(ICON_FOLDER) / 'dxf')),
+    # ('STEP', False, str(pathlib.Path(ICON_FOLDER) / 'stp')),
+    # ('IGES', False, str(pathlib.Path(ICON_FOLDER) / 'igs')),
+    ('SAT', False, str(pathlib.Path(ICON_FOLDER) / 'sat')),
+)
 _table: core.TableCommandInput = None
 _fact: 'SheetMetalExportFactry' = None
 
@@ -153,6 +160,17 @@ def command_created(args: core.CommandCreatedEventArgs):
     )
     tableFolder.addCommandInput(_pathButtonIpt, 1, 1)
 
+    # フォーマット
+    global _optButtonIpt, _options
+    _optButtonIpt = inputs.addButtonRowCommandInput(
+        '_optButtonIptId',
+        _lm.s('Format'),
+        True
+    )
+    optItems: core.ListItems = _optButtonIpt.listItems
+    for opt in _options:
+         optItems.add(opt[0], opt[1], opt[2])
+
     # フラットパターン
     groupFlatIpt: core.GroupCommandInput = inputs.addGroupCommandInput(
         'groupFlatIptId',
@@ -229,6 +247,11 @@ def command_created(args: core.CommandCreatedEventArgs):
 
 def command_validateInputs(args: core.ValidateInputsEventArgs):
 
+    global _optButtonIpt
+    if len(get_check_on_option_indexs(_optButtonIpt)) < 1:
+        args.areInputsValid = False
+        return
+
     global _table
     if len(get_check_on_indexs(_table)) < 1:
         args.areInputsValid = False
@@ -253,6 +276,7 @@ def command_execute(args: core.CommandEventArgs):
     global _fact, _pathTxtIpt
     _fact.export_sheetMetal_flatPattern(
         get_check_on_indexs(_table),
+        get_check_on_option_indexs(_optButtonIpt),
         _pathTxtIpt.text,
     )
 
@@ -275,6 +299,18 @@ def get_check_on_indexs(table: core.TableCommandInput) -> list:
             indexs.append(int(inputs.id.split('_')[-1]))
 
     return indexs
+
+
+def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
+    '''
+    チェックONのフォーマットを取得
+    '''
+    optLst = []
+    for opt in dropIpt.listItems:
+        if opt.isSelected:
+            optLst.append(opt.name)
+
+    return optLst
 
 
 def command_inputChanged(args: core.InputChangedEventArgs):
