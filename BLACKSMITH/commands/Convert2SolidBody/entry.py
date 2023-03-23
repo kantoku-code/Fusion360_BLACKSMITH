@@ -147,6 +147,15 @@ def command_preSelect(args: core.SelectionEventArgs):
     body: fusion.BRepBody = args.selection.entity
     if not body.isSheetMetal:
         args.isSelectable = False
+        return
+
+    occ: fusion.Occurrence = body.assemblyContext
+    if not occ:
+        return
+
+    if has_referenced_component(occ):
+        args.isSelectable = False
+        return
 
 
 def command_destroy(args: core.CommandEventArgs):
@@ -161,3 +170,14 @@ def command_executePreview(args: core.CommandEventArgs):
     to_solidBody(_bodyIpt.selection(0).entity)
 
     args.isValidResult = True
+
+
+def has_referenced_component(
+    occ: fusion.Occurrence,
+) -> bool:
+
+    occNames = occ.fullPathName.split('+')
+    comp: fusion.Component = occ.sourceComponent
+    occs = [comp.allOccurrences.itemByName(n) for n in occNames]
+
+    return any([o.isReferencedComponent for o in occs])

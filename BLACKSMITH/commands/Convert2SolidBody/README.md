@@ -27,7 +27,7 @@ The actual process is not a conversion, but the following process.
 + Create a sketch on the flat surface of the sheet metal body.
 + Create solid body with rotate command.
 + Combine to create a solid body.
-+ Delete unwanted faces.
++ Delete unnecessary bodies.
 
 These processes are made into a timeline group.
 
@@ -39,9 +39,7 @@ These processes are made into a timeline group.
 
 ## **Note** :
 
-+ Some edges may not be clean due to merging and deleting very small shapes.
-
-![Alt text](./resources_readme/warning.png)
++ None in particular.
 
 ---
 
@@ -73,6 +71,7 @@ The following environment is confirmed.
 ![Alt text](./resources_readme/dialog_jpn.png)
 
 変換するシートメタルボディを選択し、OKボタンを押してください。
++ 外部コンポーネントのシートメタルボディは対象外です。
 
 ---
 
@@ -82,7 +81,7 @@ The following environment is confirmed.
 + シートメタルボディの平らな面にスケッチを作成。
 + 回転コマンドでソリッドボディを作成。
 + 結合してソリッドボディ化。
-+ 不要な面の削除。
++ 不要なボディの削除。
 
 これらの処理をタイムライングループにしています。
 
@@ -94,9 +93,7 @@ The following environment is confirmed.
 
 ## **注意** :
 
-+ 非常に小さい形状を結合・削除している為、一部のエッジがきれいになっていない可能性があります。
-
-![Alt text](./resources_readme/warning.png)
++ 特にありません。
 
 ---
 

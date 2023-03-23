@@ -24,23 +24,22 @@ def to_solidBody(
 
 
     def create_sketch(
-        face: fusion.BRepFace,
         comp: fusion.Component,
         occ: fusion.Occurrence,
     ) -> fusion.Sketch:
 
+        plane: fusion.ConstructionPlane = comp.xYConstructionPlane
         skt: fusion.Sketch = None
         if occ:
-            skt = comp.sketches.addWithoutEdges(face, occ)
+            skt = comp.sketches.addWithoutEdges(plane, occ)
         else:
-            skt = comp.sketches.addWithoutEdges(face)
+            skt = comp.sketches.addWithoutEdges(plane)
 
         return skt
 
 
     def create_profile_axis(
         skt: fusion.Sketch,
-        face: fusion.BRepFace,
         length: float,
     ) -> set:
 
@@ -57,8 +56,13 @@ def to_solidBody(
             return skt.sketchPoints.add(p)
         # *****
 
-        vertex: fusion.BRepVertex = face.vertices[0]
-        sktPnt: fusion.SketchPoint = skt.project(vertex)[0]
+        sktPnt: fusion.SketchPoint = skt.sketchPoints.add(
+            core.Point3D.create(
+                100000000,
+                100000000,
+                0
+            )
+        )
 
         p1: core.Point3D = init_offset_point(
             sktPnt,
@@ -78,13 +82,12 @@ def to_solidBody(
         midPnt: core.Point3D = sktPnt.geometry.copy()
         midPnt.x += length
 
-        objs: core.ObjectCollection = core.ObjectCollection.create()
-        objs.add(p1)
-        objs.add(midPnt)
-        objs.add(p2)
-
-        sktFits: fusion.SketchFittedSplines = skt.sketchCurves.sketchFittedSplines
-        sktFits.add(objs)
+        sktArcs: fusion.SketchArcs = skt.sketchCurves.sketchArcs
+        sktArcs.addByThreePoints(
+            p1,
+            midPnt,
+            p2,
+        )
 
         return (skt.profiles[0], line)
 
@@ -117,7 +120,7 @@ def to_solidBody(
         targetBody: fusion.BRepBody,
         toolBody: fusion.BRepBody,
     ) -> fusion.BRepBody:
-        
+
         objs: core.ObjectCollection = core.ObjectCollection.create()
         objs.add(toolBody)
 
@@ -127,26 +130,48 @@ def to_solidBody(
             objs,
         )
         combineFeat: fusion.CombineFeature = combineFeats.add(combineIpt)
+
         return combineFeat.bodies[0]
 
 
-    def delete_nurbs_face(
+    def get_occ_body_tokens(
+        occ: fusion.Occurrence,
         comp: fusion.Component,
-        body: fusion.BRepBody
-    ) -> None:
+    ) -> list:
 
-        nurbsLst = [f for f in body.faces
-            if f.geometry.objectType == core.NurbsSurface.classType()]
+        bodyLst = [b for b in comp.bRepBodies]
+        if occ:
+            bodyLst = [b.createForAssemblyContext(occ) for b in bodyLst]
 
-        delFeats: fusion.DeleteFaceFeatures = comp.features.deleteFaceFeatures
-        delFeats.add(nurbsLst[0])
+        return [b.entityToken for b in bodyLst]
 
+
+    def remove_body(
+        occ: fusion.Occurrence,
+        comp: fusion.Component,
+        beforeTokens: list,
+        targetVolume: float,
+    ) -> fusion.BRepBody:
+
+        bodyLst = [b for b in comp.bRepBodies]
+        if occ:
+            bodyLst = [b.createForAssemblyContext(occ) for b in bodyLst]
+
+        diffBodyLst = [b for b in bodyLst if b.entityToken not in beforeTokens]
+        removeBody: fusion.BRepBody = min(diffBodyLst, key=lambda b: abs(b.volume - targetVolume))
+
+        keepBody: fusion.BRepBody = [b for b in diffBodyLst if b.entityToken != removeBody.entityToken]
+
+        removeFeats: fusion.RemoveFeatures = comp.features.removeFeatures
+        removeFeats.add(removeBody)
+
+        return keepBody
     # *****
 
     if not body.isSheetMetal:
         return
 
-    radius = 0.001
+    radius = 1
 
     app: core.Application = core.Application.get()
     des: fusion.Design = app.activeProduct
@@ -162,22 +187,23 @@ def to_solidBody(
 
     comp: fusion.Component = body.parentComponent
 
-    sketch: fusion.Sketch = create_sketch(flatFace, comp, occ)
+    sketch: fusion.Sketch = create_sketch(comp, occ)
 
-    prof, axis = create_profile_axis(sketch, flatFace, radius)
+    prof, axis = create_profile_axis(sketch, radius)
+
+    beforeTokens = get_occ_body_tokens(occ, comp)
 
     solidBody: fusion.BRepBody = create_revolve(comp, prof, axis)
+    volume = solidBody.volume
 
-    combBody: fusion.BRepBody = create_combine(
-        comp,
-        solidBody,
-        body
-    )
+    create_combine(comp, solidBody, body)
 
-    delete_nurbs_face(comp, combBody)
+    keepBody: fusion.BRepBody = remove_body(occ, comp, beforeTokens, volume)
 
     endMarker = tl.markerPosition - 1
     try:
         tl.timelineGroups.add(startMarker, endMarker)
     except:
         pass
+
+    return keepBody
