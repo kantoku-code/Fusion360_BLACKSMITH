@@ -1,10 +1,9 @@
-from re import S
 import adsk.core as core
 import adsk.fusion as fusion
 import os
 from ...lib import fusion360utils as futil
 from ... import config
-from .Convert2SolidBodyFactry import to_solidBody
+from .Convert2SolidBodyFactry import convert_solidBody
 import pathlib
 from .LanguageMessage import LanguageMessage
 
@@ -54,6 +53,7 @@ local_handlers = []
 
 # inputs
 _bodyIpt: core.SelectionCommandInput = None
+_compIpt: core.BoolValueCommandInput = None
 
 # アドイン実行時に実行されます。
 def start():
@@ -122,6 +122,14 @@ def command_created(args: core.CommandCreatedEventArgs):
     )
     _bodyIpt.addSelectionFilter(core.SelectionCommandInput.SolidBodies)
 
+    global _compIpt
+    _compIpt = inputs.addBoolValueInput(
+        '_compIptId',
+        _lm.s('Create Components from Bodies'),
+        True,
+        '',
+        True
+    )
 
     # **event**
     futil.add_handler(
@@ -166,8 +174,11 @@ def command_destroy(args: core.CommandEventArgs):
 
 def command_executePreview(args: core.CommandEventArgs):
 
-    global _bodyIpt
-    to_solidBody(_bodyIpt.selection(0).entity)
+    global _bodyIpt, _compIpt
+    convert_solidBody(
+        _bodyIpt.selection(0).entity,
+        _compIpt.value,
+    )
 
     args.isValidResult = True
 

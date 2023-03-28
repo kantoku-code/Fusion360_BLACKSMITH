@@ -3,8 +3,83 @@ import adsk
 import adsk.core as core
 import adsk.fusion as fusion
 import math
+from ... import config
 
-def to_solidBody(
+def convert_solidBody(
+    body: fusion.BRepBody,
+    isCreateComponent: bool,
+) -> None:
+
+    solid: fusion.BRepBody = _to_solidBody(body)
+
+    if not isCreateComponent:
+        return
+
+    parentComp: fusion.Component = solid.parentComponent
+    beforeTokens = [o.entityToken for o in parentComp.allOccurrences]
+    moveBody: fusion.BRepBody = solid.createComponent()
+
+
+    diffOccs = [occ for occ in parentComp.allOccurrences
+        if occ.entityToken not in beforeTokens]
+
+    if len(diffOccs) < 1:
+        return
+
+    occ: fusion.Occurrence = diffOccs[0]
+    proxyBody: fusion.BRepBody = moveBody.createForAssemblyContext(occ)
+
+    config.convert2SolidBody_dict['body'] = proxyBody
+
+
+    faces = [f for f in proxyBody.faces if f.geometry.objectType == core.Plane.classType()]
+    face: fusion.BRepFace = max(faces, key=lambda f: f.area)
+
+    app: core.Application = core.Application.get()
+    sels: core.Selections = app.userInterface.activeSelections
+    sels.clear()
+    sels.add(face)
+
+    app: core.Application = core.Application.get()
+    ui: core.UserInterface = app.userInterface
+
+    onCommandTerminated = MyCommandTerminatedHandler()
+    ui.commandTerminated.add(onCommandTerminated)
+    config.convert2SolidBody_dict['handler'] = onCommandTerminated
+
+
+class MyCommandTerminatedHandler(adsk.core.ApplicationCommandEventHandler):
+    def __init__(self):
+        super().__init__()
+    def notify(self, args: core.ApplicationCommandEventArgs):
+        app: core.Application = core.Application.get()
+        ui: core.UserInterface = app.userInterface
+
+        if ui.activeCommand != f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_conv2solid':
+            return
+
+        body: fusion.BRepBody = config.convert2SolidBody_dict['body']
+
+        faces = [f for f in body.faces if f.geometry.objectType == core.Plane.classType()]
+        face: fusion.BRepFace = max(faces, key=lambda f: f.area)
+
+        sels: core.Selections = app.userInterface.activeSelections
+        sels.clear()
+        sels.add(face)
+
+        cmdDef: core.CommandDefinition = ui.commandDefinitions.itemById('ConvertToSheetMetalCmd')
+        cmdDef.execute()
+
+        # cmds = (
+        #     # u'Commands.Start ConvertToSheetMetalCmd',
+        #     u'NuCommands.CommitCmd',
+        # )
+        # [app.executeTextCommand(cmd) for cmd in cmds]
+
+        config.convert2SolidBody_dict['handler'] = None
+
+
+def _to_solidBody(
     body: fusion.BRepBody,
 ) -> fusion.BRepBody:
 
@@ -198,7 +273,8 @@ def to_solidBody(
 
     create_combine(comp, solidBody, body)
 
-    keepBody: fusion.BRepBody = remove_body(occ, comp, beforeTokens, volume)
+    keepBodies = remove_body(occ, comp, beforeTokens, volume)
+    keepBody: fusion.BRepBody = keepBodies[0]
 
     endMarker = tl.markerPosition - 1
     try:

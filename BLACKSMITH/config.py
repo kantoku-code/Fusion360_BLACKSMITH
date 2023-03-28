@@ -2,6 +2,7 @@
 # このモジュールは、さまざまな変数間で変数を共有する方法として機能します。
 # モジュール（グローバル変数）です。
 
+from cgitb import handler
 import os
 
 # デバッグモードで動作させるかどうかを示すフラグ。
@@ -62,3 +63,8 @@ all_workspace_names = [
 sample_palette_id = f'{COMPANY_NAME}_{ADDIN_NAME}_palette_id'
 
 fullsize_palette_id = f'{COMPANY_NAME}_{ADDIN_NAME}_fullsize_id'
+
+convert2SolidBody_dict = {
+    'handler': None,
+    'body': None,
+}

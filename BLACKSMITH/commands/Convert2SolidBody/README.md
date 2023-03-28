@@ -17,7 +17,11 @@ By clicking on it, a dialog box appears.
 
 ![Alt text](./resources_readme/dialog_eng.png)
 
-Select the sheet metal body to be converted and press the OK button.
++ Sheet Metal Body : Select the sheet metal body to be converted.
+  + Sheet metal body for external components is not applicable.
+
++ Create Component from Bodies: After converting to a solid body, create a new component and move the body into the component. Then exit with the "Convert to Sheet Metal" command dialog displayed.
+  - ![Alt text](./resources_readme/reconvert_eng.png)
 
 ---
 
@@ -70,8 +74,11 @@ The following environment is confirmed.
 
 ![Alt text](./resources_readme/dialog_jpn.png)
 
-変換するシートメタルボディを選択し、OKボタンを押してください。
-+ 外部コンポーネントのシートメタルボディは対象外です。
++ シートメタルボディ : 変換するシートメタルボディを選択してください。
+  + 外部コンポーネントのシートメタルボディは対象外です。
+
++ ボディからコンポーネントを作成 : ソリッドボディに変換後、新たなコンポーネントを作成し、コンポーネント内にボディを移動します。その後"シートメタルに変換"コマンドのダイアログを表示した状態で終了します。
+  - ![Alt text](./resources_readme/reconvert_jpn.png)
 
 ---
 
