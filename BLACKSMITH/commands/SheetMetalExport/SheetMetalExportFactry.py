@@ -1,10 +1,13 @@
+from os import remove
 import traceback
 import adsk
 import adsk.core as core
 import adsk.fusion as fusion
 import pathlib
 import re
-# import time
+import os
+import pprint
+import time
 
 SUFFIX_MAP = {
     'DXF': '.dxf',
@@ -12,6 +15,8 @@ SUFFIX_MAP = {
     'IGES': '.igs',
     'SAT': '.sat',
 }
+
+DEBUG = False
 
 class SheetMetalExportFactry():
     def __init__(self) -> None:
@@ -37,6 +42,7 @@ class SheetMetalExportFactry():
                     for suffix in optionList:
                         try:
                             path = self._get_path(info, folderPath, SUFFIX_MAP[suffix])
+                            dump(path)
                             if suffix == 'DXF':
                                 self._export_dxf(path, flat)
                             elif suffix == 'SAT':
@@ -46,14 +52,17 @@ class SheetMetalExportFactry():
                         except:
                             ngLst.append(path)
                 except:
-                    pass
-                # time.sleep(1)
+                    ngLst.append(path)
+                time.sleep(0.1)
         except:
             pass
         finally:
             self.app.executeTextCommand(u'Transaction.Abort')
 
-        ngLst = [path for path in ngLst if not pathlib.Path(path).exists()]
+        removeLst = [path for path in ngLst if pathlib.Path(path).exists()]
+        # pprint.pprint(removeLst)
+        for f in removeLst:
+            os.remove(f)
 
         return ngLst
 
@@ -64,16 +73,19 @@ class SheetMetalExportFactry():
         '''
         comp: fusion.Component = body.parentComponent
         flat: fusion.FlatPattern = comp.flatPattern
-        if flat:
-            flatProd: fusion.FlatPatternProduct = flat.parentComponent.parentDesign
-            flatProd.deleteMe()
+        try:
+            if flat:
+                flatProd: fusion.FlatPatternProduct = flat.parentComponent.parentDesign
+                flatProd.deleteMe()
 
-        flatFaces = [f for f in body.faces
-            if f.geometry.objectType == core.Plane.classType()]
+            flatFaces = [f for f in body.faces
+                if f.geometry.objectType == core.Plane.classType()]
 
-        targetFace: fusion.BRepFace = max(flatFaces, key=lambda f: f.area)
+            targetFace: fusion.BRepFace = max(flatFaces, key=lambda f: f.area)
 
-        return comp.createFlatPattern(targetFace)
+            return comp.createFlatPattern(targetFace)
+        except:
+            dump(f'_create_flatPattern error: {comp.name}')
 
 
     def _create_sheet_info(self, body: fusion.BRepBody) -> dict:
@@ -190,3 +202,9 @@ class SheetMetalExportFactry():
             if not path.exists():
                 return str(path)
             count += 1
+
+def dump(msg) -> None:
+    if not DEBUG:
+        return
+
+    print(f'{msg}')

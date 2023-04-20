@@ -34,7 +34,8 @@ The file will be exported in the specified folder.
 + The file name is "body name"-"component name"-"sheet metal rule name"-"thickness" + extension.
 + If there is already an identical file name, the file name will be "_(number)" in the file name. (It will not be overwritten.)
 + If there is an unsuitable character in the component name, it will be replaced by "_" in the file name.
-
++ Any failed exports will output the file path to a text commands window.
+![Alt text](./resources_readme/export_err_eng.png)
 
 ---
 
@@ -48,7 +49,7 @@ The file will be exported in the specified folder.
 
 The following environment is confirmed.
 
-- Fusion360 Ver2.0.15509
+- Fusion360 Ver2.0.15995
 - Windows 10 64bit Pro , Home
 
 ---
@@ -89,7 +90,8 @@ The following environment is confirmed.
 + ファイル名は、"ボディ名"-"コンポーネント名"-"シートメタルルール名"-"厚み" + 拡張子となります。
 + 既に同一のファイル名がある場合は、ファイル名に "_(数値)" のファイル名となります。（上書きしません）
 + コンポーネント名等にファイル名として相応しくない文字がある場合は "_" に置き換えられたファイル名となります。
-
++ エクスポートに失敗したものは、テキストコマンドウィンドウにファイルパスを出力します。
+![Alt text](./resources_readme/export_err_eng.png)
 ---
 
 ## **注意** :
@@ -102,7 +104,7 @@ The following environment is confirmed.
 
 以下の環境で確認しています。
 
-- Fusion360 Ver2.0.15509
+- Fusion360 Ver2.0.15995
 - Windows10 64bit Pro , Home
 
 ---
