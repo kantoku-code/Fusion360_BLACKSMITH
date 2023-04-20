@@ -35,6 +35,7 @@ The file will be exported in the specified folder.
 + If there is already an identical file name, the file name will be "_(number)" in the file name. (It will not be overwritten.)
 + If there is an unsuitable character in the component name, it will be replaced by "_" in the file name.
 + Any failed exports will output the file path to a text commands window.
+
 ![Alt text](./resources_readme/export_err_eng.png)
 ---
 
