@@ -274,11 +274,14 @@ def command_execute(args: core.CommandEventArgs):
     global _table
     global _optButtonIpt
     global _fact, _pathTxtIpt
-    _fact.export_sheetMetal_flatPattern(
+    ngLst = _fact.export_sheetMetal_flatPattern(
         get_check_on_indexs(_table),
         get_check_on_option_indexs(_optButtonIpt),
         _pathTxtIpt.text,
     )
+
+    if len(ngLst) > 0:
+        show_report(ngLst)
 
     open_folder(_pathTxtIpt.text)
 
@@ -350,3 +353,9 @@ def open_folder(folderPath: str) -> None:
         os.startfile(str(path))
     else:
         subprocess.check_call(["open", "--", str(path)])
+
+def show_report(lst: list[str]) -> None:
+
+    app: core.Application = core.Application.get()
+    app.log(app.executeTextCommand(u'window.Clear'))
+    app.log('** export error **\n{}'.format("\n".join(lst)))

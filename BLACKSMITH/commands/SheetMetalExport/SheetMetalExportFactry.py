@@ -4,6 +4,7 @@ import adsk.core as core
 import adsk.fusion as fusion
 import pathlib
 import re
+# import time
 
 SUFFIX_MAP = {
     'DXF': '.dxf',
@@ -18,10 +19,15 @@ class SheetMetalExportFactry():
         self.sheetInfos = self._get_sheetMetal_body_infos()
 
 
-    def export_sheetMetal_flatPattern(self, sheetBodyIndexList: list, optionList: list, folderPath: str) -> None:
+    def export_sheetMetal_flatPattern(
+        self, sheetBodyIndexList: list, 
+        optionList: list, 
+        folderPath: str
+    ) -> list[str]:
         '''
         フラットパターンを作成してエクスポート
         '''
+        ngLst = []
         self.app.executeTextCommand(u'Transaction.Start sheetmetal_export')
         try:
             for idx in sheetBodyIndexList:
@@ -29,29 +35,27 @@ class SheetMetalExportFactry():
                 try:
                     flat: fusion.FlatPattern = self._create_flatPattern(info['native'])
                     for suffix in optionList:
-                        path = self._get_path(info, folderPath, SUFFIX_MAP[suffix])
-                        if suffix == 'DXF':
-                            self._export_dxf(path, flat)
-                        elif suffix == 'SAT':
-                            self._export_sat(path, flat)
-                        else:
-                            pass
+                        try:
+                            path = self._get_path(info, folderPath, SUFFIX_MAP[suffix])
+                            if suffix == 'DXF':
+                                self._export_dxf(path, flat)
+                            elif suffix == 'SAT':
+                                self._export_sat(path, flat)
+                            else:
+                                pass
+                        except:
+                            ngLst.append(path)
                 except:
-                    continue
+                    pass
+                # time.sleep(1)
         except:
             pass
         finally:
             self.app.executeTextCommand(u'Transaction.Abort')
 
+        ngLst = [path for path in ngLst if not pathlib.Path(path).exists()]
 
-    # def _all_break_link(self) -> None:
-    #     des: fusion.Design = self.app.activeProduct
-    #     root: fusion.Component = des.rootComponent
-
-    #     occ: fusion.Occurrence = None
-    #     for occ in root.allOccurrences:
-    #         if occ.isReferencedComponent:
-    #             occ.breakLink()
+        return ngLst
 
 
     def _create_flatPattern(self, body: fusion.BRepBody) -> fusion.FlatPattern:
@@ -64,7 +68,12 @@ class SheetMetalExportFactry():
             flatProd: fusion.FlatPatternProduct = flat.parentComponent.parentDesign
             flatProd.deleteMe()
 
-        return comp.createFlatPattern(body.faces[0])
+        flatFaces = [f for f in body.faces
+            if f.geometry.objectType == core.Plane.classType()]
+
+        targetFace: fusion.BRepFace = max(flatFaces, key=lambda f: f.area)
+
+        return comp.createFlatPattern(targetFace)
 
 
     def _create_sheet_info(self, body: fusion.BRepBody) -> dict:
@@ -135,7 +144,8 @@ class SheetMetalExportFactry():
 
         tmpMgr: fusion.TemporaryBRepManager = fusion.TemporaryBRepManager.get()
         bodyLst = [tmpMgr.copy(b) for b in flat.bodies]
-        tmpMgr.exportToFile(bodyLst, path)
+        # time.sleep(1)
+        res = tmpMgr.exportToFile(bodyLst, path)
 
 
     def _export_dxf(self, path: str, flat: fusion.FlatPattern) -> None:
@@ -150,7 +160,7 @@ class SheetMetalExportFactry():
             path,
             flat,
         )
-        expMgr.execute(dxfOpt)
+        res = expMgr.execute(dxfOpt)
 
 
     def _get_path(self, info: dict, folderPath: str, suffix: str) -> str:
