@@ -37,7 +37,7 @@ def convert_solidBody(
 
     app: core.Application = core.Application.get()
     sels: core.Selections = app.userInterface.activeSelections
-    sels.clear()
+    # sels.clear()
     sels.add(face)
 
     app: core.Application = core.Application.get()
