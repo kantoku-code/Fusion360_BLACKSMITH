@@ -55,6 +55,7 @@ local_handlers = []
 # inputs
 _pathButtonIpt: core.BoolValueCommandInput = None
 _pathTxtIpt: core.TextBoxCommandInput = None
+_useBodyNameIpt: core.BoolValueCommandInput = None
 _optButtonIpt: core.ButtonRowCommandInput = None
 _options = (
     ('DXF', True, str(pathlib.Path(ICON_FOLDER) / 'dxf')),
@@ -159,6 +160,16 @@ def command_created(args: core.CommandCreatedEventArgs):
         False
     )
     tableFolder.addCommandInput(_pathButtonIpt, 1, 1)
+
+    # ボディ名の使用
+    global _useBodyNameIpt
+    _useBodyNameIpt = inputs.addBoolValueInput(
+        "_useBodyNameIptId",
+        _lm.s("Use the body name as the export file name."),
+        True,
+        "",
+        True,
+    )
 
     # フォーマット
     global _optButtonIpt, _options
@@ -274,10 +285,12 @@ def command_execute(args: core.CommandEventArgs):
     global _table
     global _optButtonIpt
     global _fact, _pathTxtIpt
+    global _useBodyNameIpt
     ngLst = _fact.export_sheetMetal_flatPattern(
         get_check_on_indexs(_table),
         get_check_on_option_indexs(_optButtonIpt),
         _pathTxtIpt.text,
+        _useBodyNameIpt.value,
     )
 
     if len(ngLst) > 0:

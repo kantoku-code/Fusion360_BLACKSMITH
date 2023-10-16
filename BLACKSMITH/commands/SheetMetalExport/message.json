@@ -5,6 +5,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Erstellen und Exportieren eines flachen Musters aus einem SheetMetal Body.",
         "Folder": "Ordner",
         "Format": "Format",
+        "Use the body name as the export file name.": "Verwenden Sie den Namen des Körpers als Namen für die Exportdatei.",
         "Place a check mark in the body/component to be exported": "Aktivieren Sie die Kontrollkästchen für die zu exportierenden Körper/Komponenten"
     },
     "en-US": {
@@ -13,6 +14,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Create and export a flat pattern from a SheetMetal Body.",
         "Folder": "Folder",
         "Format": "Format",
+        "Use the body name as the export file name.": "Use the body name as the export file name.",
         "Place a check mark in the body/component to be exported": "Place a check mark in the body/component to be exported"
     },
     "es-ES": {
@@ -21,6 +23,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Crear y exportar un patrón plano de un cuerpo SheetMetal.",
         "Folder": "Carpeta",
         "Format": "Formato",
+        "Use the body name as the export file name.": "Utilice el nombre del cuerpo como nombre del archivo de exportación.",
         "Place a check mark in the body/component to be exported": "Marque el cuerpo/componente que desea exportar"
     },
     "fr-FR": {
@@ -29,6 +32,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Créer et exporter un modèle plat à partir d'un corps en tôle.",
         "Folder": "Dossier",
         "Format": "Format",
+        "Use the body name as the export file name.": "Utiliser le nom du corps comme nom de fichier d'exportation.",
         "Place a check mark in the body/component to be exported": "Cocher la case du corps/composant à exporter"
     },
     "it-IT": {
@@ -37,6 +41,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Creare ed esportare un modello piatto da un corpo in lamiera.",
         "Folder": "Cartella",
         "Format": "Formato",
+        "Use the body name as the export file name.": "Utilizzare il nome del corpo come nome del file di esportazione.",
         "Place a check mark in the body/component to be exported": "Mettere un segno di spunta nel corpo/componente da esportare"
     },
     "ja-JP": {
@@ -45,6 +50,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "シートメタルボディからフラットパターンを作成しエクスポートします。",
         "Folder": "フォルダ",
         "Format": "フォーマット",
+        "Use the body name as the export file name.": "ボディ名をエクスポートファイル名に使用する。",
         "Place a check mark in the body/component to be exported": "エクスポートするボディ/コンポーネントにチェックマークを入れて下さい"
     },
     "ko-KR": {
@@ -53,6 +59,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "시트메탈 바디에서 평면 패턴 생성 및 내보내기.",
         "Folder": "폴더",
         "Format": "형식",
+        "Use the body name as the export file name.": "본문 이름을 내보내기 파일 이름으로 사용합니다.",
         "Place a check mark in the body/component to be exported": "내보낼 본문/컴포넌트에 체크 표시를 합니다"
     },
     "zh-CN": {
@@ -61,6 +68,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "从钣金车身创建并导出平面图案。",
         "Folder": "文件夹",
         "Format": "格式",
+        "Use the body name as the export file name.": "使用正文名称作为导出文件名称。",
         "Place a check mark in the body/component to be exported": "在要导出的主体/组件上打上一个复选标记"
     },
     "pl-PL": {
@@ -69,6 +77,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Utwórz i wyeksportuj płaski wzór z korpusu SheetMetal.",
         "Folder": "Folder",
         "Format": "Format",
+        "Use the body name as the export file name.": "Użyj nazwy ciała jako nazwy pliku eksportu.",
         "Place a check mark in the body/component to be exported": "Umieść zaznaczenie w korpusie/komponencie, który ma być eksportowany"
     },
     "pt-BR": {
@@ -77,6 +86,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Criar e exportar um padrão plano a partir de um Corpo de Chapas de Metal.",
         "Folder": "Pasta",
         "Format": "Formato",
+        "Use the body name as the export file name.": "Use o nome do corpo como o nome do arquivo de exportação.",
         "Place a check mark in the body/component to be exported": "Colocar uma marca de verificação no corpo/componente a ser exportado"
     },
     "tr-TR": {
@@ -85,6 +95,7 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Bir SheetMetal Gövdeden düz bir desen oluşturun ve dışa aktarın.",
         "Folder": "Klasör",
         "Format": "Biçim",
+        "Use the body name as the export file name.": "Dışa aktarma dosyası adı olarak gövde adını kullanın.",
         "Place a check mark in the body/component to be exported": "Dışa aktarılacak gövdeye/bileşene bir onay işareti koyun"
     }
 }

@@ -17,10 +17,11 @@ By clicking on it, a dialog box will appear.
 
 ![Alt text](./resources_readme/dialog_eng.png)
 + A : Place a check mark in the body/component to be exported.
-+ B : Specify the output format.
++ B : Uncheck the box if you do not want to include the body name in the output file name.
++ C : Specify the output format.
   + DXF: Export DXF.
   + SAT: Export SAT. (Bend lines are also exported.)
-+ C : Check the components to be output.
++ D : Check the components to be output.
   + The sheet metal body and the component name it belongs to will be listed.
   + For the sheet metal body shown, there is a pre-check mark.
   + No need to pre-create flat patterns.
@@ -72,10 +73,11 @@ The following environment is confirmed.
 
 ![Alt text](./resources_readme/dialog_jpn.png)
 + A : 出力先のフォルダを選択してください。
-+ B : 出力フォーマットを指定してください。
++ B : 出力ファイル名にボディ名を含め無い場合は、チェックを外してください。
++ C : 出力フォーマットを指定してください。
   + DXF: DXFをエクスポートします。
   + SAT: SATをエクスポートします。(ベンドラインもエクスポートします。)
-+ C : 出力するボディ/コンポーネントにチェックを入れます。
++ D : 出力するボディ/コンポーネントにチェックを入れます。
   + シートメタルボディと所属するコンポーネント名がリストされます。
   + 表示されているシートメタルボディについては事前にチェックが入っています。
   + フラットパターンを事前に作成する必要はありません。

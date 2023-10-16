@@ -27,7 +27,8 @@ class SheetMetalExportFactry():
     def export_sheetMetal_flatPattern(
         self, sheetBodyIndexList: list, 
         optionList: list, 
-        folderPath: str
+        folderPath: str,
+        useBodyName: bool,
     ) -> list[str]:
         '''
         フラットパターンを作成してエクスポート
@@ -41,7 +42,7 @@ class SheetMetalExportFactry():
                     flat: fusion.FlatPattern = self._create_flatPattern(info['native'])
                     for suffix in optionList:
                         try:
-                            path = self._get_path(info, folderPath, SUFFIX_MAP[suffix])
+                            path = self._get_path(info, folderPath, SUFFIX_MAP[suffix], useBodyName)
                             dump(path)
                             if suffix == 'DXF':
                                 self._export_dxf(path, flat)
@@ -60,6 +61,7 @@ class SheetMetalExportFactry():
             self.app.executeTextCommand(u'Transaction.Abort')
 
         removeLst = [path for path in ngLst if pathlib.Path(path).exists()]
+        # pprint.pprint(ngLst)
         # pprint.pprint(removeLst)
         for f in removeLst:
             os.remove(f)
@@ -175,7 +177,7 @@ class SheetMetalExportFactry():
         res = expMgr.execute(dxfOpt)
 
 
-    def _get_path(self, info: dict, folderPath: str, suffix: str) -> str:
+    def _get_path(self, info: dict, folderPath: str, suffix: str, useBodyName: bool) -> str:
         '''
         ユニークなファイルパス取得
         '''
@@ -184,7 +186,9 @@ class SheetMetalExportFactry():
             body: fusion.BRepBody= info['native']
             comp: fusion.Component = body.parentComponent
             rule: fusion.SheetMetalRule = comp.activeSheetMetalRule
-            stem = f'{body.name}-{comp.name}-{rule.name}-{rule.thickness.expression}'
+            stem = f'{comp.name}-{rule.name}-{rule.thickness.expression}'
+            if useBodyName:
+                stem = f'{body.name}-{stem}'
 
             return re.sub(r'[\\|/|:|?|.|"|<|>|\|]', '_', stem)
 
