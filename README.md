@@ -7,9 +7,13 @@ It will help you with sheet metal work for a little bit.
 
 ## **Installation**:
 
-To install, download/extract the zip file and register the "BLACKSMITH" folder as an **add-in**.
+1. Quit Autodesk Fusion.
+2. Download and extract the zip file.
+3. Run `installer\install_Win.cmd` in the extracted folder.
+4. Follow the on-screen instructions and enter `Y`.
+5. The "BLACKSMITH" folder is copied to `%APPDATA%\Autodesk\Autodesk Fusion 360\API\AddIns\BLACKSMITH`.
 
-To register add-ins, follow the instructions [here](https://knowledge.autodesk.com/support/fusion-360/troubleshooting/caas/sfdcarticles/sfdcarticles/How-to-install-an-ADD-IN-and-Script-in-Fusion-360.html).
+To uninstall, delete the copied "BLACKSMITH" folder.
 
 ---
 
@@ -47,9 +51,12 @@ The following environment is confirmed.
 
 ## **インストール**:
 
-インストールする際は、zip ファイルをダウンロード/展開後 "BLACKSMITH" フォルダを **アドイン** として登録してください。
+1. Fusion を終了します。
+2. zip ファイルをダウンロードして展開します。
+3. 展開したフォルダー内の `installer\install_Win.cmd` を実行し、画面の案内に従って `Y` を入力します。
+4. 「BLACKSMITH」フォルダーが `%APPDATA%\Autodesk\Autodesk Fusion 360\API\AddIns\BLACKSMITH` にコピーされます。
 
-アドインの登録は、[こちら](https://kantoku.hatenablog.com/entry/2021/02/15/161734)の手順に従ってください。
+アンインストールする場合は、コピーされた「BLACKSMITH」フォルダーを削除してください。
 
 ---
 
