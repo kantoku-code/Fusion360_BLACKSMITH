@@ -51,8 +51,8 @@ These processes are made into a timeline group.
 
 The following environment is confirmed.
 
-- Fusion360 Ver2.0.15509
-- Windows 10 64bit Pro , Home
+- Fusion360 Ver2706.1.17
+- Windows11 64bit Home
 
 ---
 ---
@@ -108,7 +108,7 @@ The following environment is confirmed.
 
 以下の環境で確認しています。
 
-- Fusion360 Ver2.0.15509
-- Windows10 64bit Pro , Home
+- Fusion360 Ver2706.1.17
+- Windows11 64bit Home
 
 ---
