@@ -24,28 +24,10 @@ def add_handler(
         event: adsk.core.Event,
         callback: Callable,
         *,
-        name: str = None,
-        local_handlers: list = None
-):
-    """Adds an event handler to the specified event.
-
-    Arguments:
-    event -- The event object you want to connect a handler to.
-    callback -- The function that will handle the event.
-    name -- A name to use in logging errors associated with this event.
-            Otherwise the name of the event object is used. This argument
-            must be specified by its keyword.
-    local_handlers -- A list of handlers you manage that is used to maintain
-                      a reference to the handlers so they aren't released.
-                      This argument must be specified by its keyword. If not
-                      specified the handler is added to a global list and can
-                      be cleared using the clear_handlers function. You may want
-                      to maintain your own handler list so it can be managed 
-                      independently for each command.
-
-    :returns:
-        The event handler that was created.  You don't often need this reference, but it can be useful in some cases.
-    """   
+        name: str | None = None,
+        local_handlers: list[object] | None = None
+) -> object:
+    """Fusion のイベントにコールバックを登録する。"""
     module = sys.modules[event.__module__]
     handler_type = module.__dict__[event.add.__annotations__['handler']]
     handler = _create_handler(handler_type, callback, event, name, local_handlers)
@@ -53,33 +35,37 @@ def add_handler(
     return handler
 
 
-def clear_handlers():
-    """Clears the global list of handlers.
-    """
+def clear_handlers() -> None:
+    """保持しているグローバルイベントハンドラを解放する。"""
     global _handlers
     _handlers = []
 
 
 def _create_handler(
-        handler_type,
+        handler_type: type,
         callback: Callable,
         event: adsk.core.Event,
-        name: str = None,
-        local_handlers: list = None
-):
+        name: str | None = None,
+        local_handlers: list[object] | None = None
+) -> object:
+    """コールバック用ハンドラを生成して参照を保持する。"""
     handler = _define_handler(handler_type, callback, name)()
     (local_handlers if local_handlers is not None else _handlers).append(handler)
     return handler
 
 
-def _define_handler(handler_type, callback, name: str = None):
+def _define_handler(handler_type: type, callback: Callable, name: str | None = None) -> type:
+    """イベントをコールバックへ渡すハンドラクラスを定義する。"""
     name = name or handler_type.__name__
 
     class Handler(handler_type):
-        def __init__(self):
+        """Fusion イベントをコールバックへ中継する。"""
+        def __init__(self) -> None:
+            """Fusion のイベントハンドラを初期化する。"""
             super().__init__()
 
-        def notify(self, args):
+        def notify(self, args: object) -> None:
+            """イベント引数をコールバックに渡し、例外を記録する。"""
             try:
                 callback(args)
             except:

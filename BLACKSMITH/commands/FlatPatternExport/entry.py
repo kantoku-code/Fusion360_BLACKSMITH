@@ -66,8 +66,9 @@ _table: core.TableCommandInput = None
 _fact: 'FlatPatternExportFactry' = None
 
 # アドイン実行時に実行されます。
-def start():
+def start() -> None:
     # コマンドの定義を作成する。
+    """Fusion のツールバーにコマンドを登録する。"""
     cmd_def = ui.commandDefinitions.addButtonDefinition(
         CMD_ID,
         CMD_NAME,
@@ -100,8 +101,9 @@ def start():
 
 
 # アドイン停止時に実行されます。
-def stop():
+def stop() -> None:
     # このコマンドのさまざまなUI要素を取得する
+    """アドインのコマンドとイベントハンドラを解除する。"""
     workspace = ui.workspaces.itemById(WORKSPACE_ID)
     panel = workspace.toolbarPanels.itemById(PANEL_ID)
     command_control = panel.controls.itemById(CMD_ID)
@@ -116,8 +118,9 @@ def stop():
         command_definition.deleteMe()
 
 
-def command_created(args: core.CommandCreatedEventArgs):
+def command_created(args: core.CommandCreatedEventArgs) -> None:
 
+    """コマンドの入力欄とイベントハンドラを作成する。"""
     cmd: core.Command = core.Command.cast(args.command)
     cmd.isPositionDependent = True
 
@@ -238,8 +241,9 @@ def command_created(args: core.CommandCreatedEventArgs):
     )
 
 
-def command_validateInputs(args: core.ValidateInputsEventArgs):
+def command_validateInputs(args: core.ValidateInputsEventArgs) -> None:
 
+    """選択項目と出力先を確認する。"""
     global _optButtonIpt
     if len(get_check_on_option_indexs(_optButtonIpt)) < 1:
         args.areInputsValid = False
@@ -256,14 +260,16 @@ def command_validateInputs(args: core.ValidateInputsEventArgs):
         return
 
 
-def command_destroy(args: core.CommandEventArgs):
+def command_destroy(args: core.CommandEventArgs) -> None:
 
+    """コマンド終了後にローカルハンドラを解放する。"""
     global local_handlers
     local_handlers = []
 
 
-def command_execute(args: core.CommandEventArgs):
+def command_execute(args: core.CommandEventArgs) -> None:
 
+    """選択した対象を指定形式で書き出す。"""
     global _table
     global _optButtonIpt
     global _fact, _pathTxtIpt
@@ -276,7 +282,7 @@ def command_execute(args: core.CommandEventArgs):
 
     open_folder(_pathTxtIpt.text)
 
-def get_check_on_indexs(table: core.TableCommandInput) -> list:
+def get_check_on_indexs(table: core.TableCommandInput) -> list[int]:
     '''
     テーブル内のチェックONのインデックス取得
     '''
@@ -294,7 +300,7 @@ def get_check_on_indexs(table: core.TableCommandInput) -> list:
     return indexs
 
 
-def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
+def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list[str]:
     '''
     チェックONのフォーマットを取得
     '''
@@ -306,8 +312,9 @@ def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
     return optLst
 
 
-def command_inputChanged(args: core.InputChangedEventArgs):
+def command_inputChanged(args: core.InputChangedEventArgs) -> None:
 
+    """出力先選択ボタンの変更を反映する。"""
     global _pathButtonIpt
     if args.input != _pathButtonIpt:
         return
@@ -316,7 +323,7 @@ def command_inputChanged(args: core.InputChangedEventArgs):
     _pathTxtIpt.text = get_folder_path()
 
 
-def get_folder_path():
+def get_folder_path() -> str:
     '''
     フォルダパスの取得
     '''

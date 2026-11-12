@@ -67,45 +67,37 @@ _table: core.TableCommandInput = None
 _fact: 'SheetMetalExportFactry' = None
 
 # アドイン実行時に実行されます。
-def start():
-    # コマンドの定義を作成する。
-    cmd_def = ui.commandDefinitions.addButtonDefinition(
-        CMD_ID,
-        CMD_NAME,
-        CMD_Description,
-        str(pathlib.Path(ICON_FOLDER) / 'cmd'),
-    )
-
-    # コマンド作成イベントのイベントハンドラを定義します。
-    # このハンドラは、ボタンがクリックされたときに呼び出されます。
-    futil.add_handler(cmd_def.commandCreated, command_created)
-
-    # ******** ユーザーがコマンドを実行できるように、UIにボタンを追加します。 ********
-    # ボタンが作成される対象のワークスペースを取得します。
-    workspace = ui.workspaces.itemById(WORKSPACE_ID)
-
-    toolbar_tab = workspace.toolbarTabs.itemById(TAB_ID)
-    # if toolbar_tab is None:
-    #     toolbar_tab = workspace.toolbarTabs.add(TAB_ID, TAB_NAME)
-
-    # ボタンが作成されるパネルを取得します。
-    panel = workspace.toolbarPanels.itemById(PANEL_ID)
-    # if panel is None:
-    #     panel = toolbar_tab.toolbarPanels.add(PANEL_ID, PANEL_NAME, PANEL_AFTER, False)
-
-    # 指定された既存のコマンドの後に、UI のボタンコマンド制御を作成します。
-    control = panel.controls.addCommand(cmd_def, COMMAND_BESIDE_ID, False)
-
-    # コマンドをメインツールバーに昇格させるかどうかを指定します。
-    control.isPromoted = IS_PROMOTED
+def start() -> None:
+    """Fusion のツールバーにコマンドを登録する。"""
+    cmd_def = None
+    control = None
+    try:
+        cmd_def = ui.commandDefinitions.addButtonDefinition(
+            CMD_ID, CMD_NAME, CMD_Description, str(pathlib.Path(ICON_FOLDER) / 'cmd'))
+        futil.add_handler(cmd_def.commandCreated, command_created)
+        workspace = ui.workspaces.itemById(WORKSPACE_ID)
+        if not workspace:
+            raise RuntimeError(f'Workspace unavailable: {WORKSPACE_ID}')
+        panel = workspace.toolbarPanels.itemById(PANEL_ID)
+        if not panel:
+            raise RuntimeError(f'Panel unavailable: {PANEL_ID}')
+        control = panel.controls.addCommand(cmd_def, COMMAND_BESIDE_ID, False)
+        control.isPromoted = IS_PROMOTED
+    except Exception:
+        if control:
+            control.deleteMe()
+        if cmd_def:
+            cmd_def.deleteMe()
+        raise
 
 
 # アドイン停止時に実行されます。
-def stop():
+def stop() -> None:
     # このコマンドのさまざまなUI要素を取得する
+    """アドインのコマンドとイベントハンドラを解除する。"""
     workspace = ui.workspaces.itemById(WORKSPACE_ID)
-    panel = workspace.toolbarPanels.itemById(PANEL_ID)
-    command_control = panel.controls.itemById(CMD_ID)
+    panel = workspace.toolbarPanels.itemById(PANEL_ID) if workspace else None
+    command_control = panel.controls.itemById(CMD_ID) if panel else None
     command_definition = ui.commandDefinitions.itemById(CMD_ID)
 
     # ボタンコマンドの制御を削除する。
@@ -117,8 +109,9 @@ def stop():
         command_definition.deleteMe()
 
 
-def command_created(args: core.CommandCreatedEventArgs):
+def command_created(args: core.CommandCreatedEventArgs) -> None:
 
+    """コマンドの入力欄とイベントハンドラを作成する。"""
     cmd: core.Command = core.Command.cast(args.command)
     cmd.isPositionDependent = True
 
@@ -256,8 +249,9 @@ def command_created(args: core.CommandCreatedEventArgs):
     )
 
 
-def command_validateInputs(args: core.ValidateInputsEventArgs):
+def command_validateInputs(args: core.ValidateInputsEventArgs) -> None:
 
+    """選択項目と出力先を確認する。"""
     global _optButtonIpt
     if len(get_check_on_option_indexs(_optButtonIpt)) < 1:
         args.areInputsValid = False
@@ -269,23 +263,29 @@ def command_validateInputs(args: core.ValidateInputsEventArgs):
         return
 
     global _pathTxtIpt
-    if len(_pathTxtIpt.text) < 1:
+    if not _pathTxtIpt.text or not pathlib.Path(_pathTxtIpt.text).is_dir():
         args.areInputsValid = False
         return
 
 
-def command_destroy(args: core.CommandEventArgs):
+def command_destroy(args: core.CommandEventArgs) -> None:
 
+    """コマンド終了後にローカルハンドラを解放する。"""
     global local_handlers
     local_handlers = []
 
 
-def command_execute(args: core.CommandEventArgs):
+def command_execute(args: core.CommandEventArgs) -> None:
 
+    """選択した対象を指定形式で書き出す。"""
     global _table
     global _optButtonIpt
     global _fact, _pathTxtIpt
     global _useBodyNameIpt
+    folder = pathlib.Path(_pathTxtIpt.text)
+    if not _pathTxtIpt.text or not folder.is_dir():
+        show_report([f'Invalid export folder: {folder}'])
+        return
     ngLst = _fact.export_sheetMetal_flatPattern(
         get_check_on_indexs(_table),
         get_check_on_option_indexs(_optButtonIpt),
@@ -299,7 +299,7 @@ def command_execute(args: core.CommandEventArgs):
     open_folder(_pathTxtIpt.text)
 
 
-def get_check_on_indexs(table: core.TableCommandInput) -> list:
+def get_check_on_indexs(table: core.TableCommandInput) -> list[int]:
     '''
     テーブル内のチェックONのインデックス取得
     '''
@@ -317,7 +317,7 @@ def get_check_on_indexs(table: core.TableCommandInput) -> list:
     return indexs
 
 
-def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
+def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list[str]:
     '''
     チェックONのフォーマットを取得
     '''
@@ -329,17 +329,20 @@ def get_check_on_option_indexs(dropIpt: core.ButtonRowCommandInput) -> list:
     return optLst
 
 
-def command_inputChanged(args: core.InputChangedEventArgs):
+def command_inputChanged(args: core.InputChangedEventArgs) -> None:
 
+    """出力先選択ボタンの変更を反映する。"""
     global _pathButtonIpt
     if args.input != _pathButtonIpt:
         return
 
     global _pathTxtIpt
-    _pathTxtIpt.text = get_folder_path()
+    selected_path = get_folder_path()
+    if selected_path:
+        _pathTxtIpt.text = selected_path
 
 
-def get_folder_path():
+def get_folder_path() -> str:
     '''
     フォルダパスの取得
     '''
@@ -359,7 +362,7 @@ def open_folder(folderPath: str) -> None:
     '''
     path = pathlib.Path(folderPath)
 
-    if not path.exists():
+    if not path.is_dir():
         return
 
     if platform.system() == 'Windows':
@@ -369,6 +372,6 @@ def open_folder(folderPath: str) -> None:
 
 def show_report(lst: list[str]) -> None:
 
+    """書き出し失敗の一覧を Fusion のログに記録する。"""
     app: core.Application = core.Application.get()
-    app.log(app.executeTextCommand(u'window.Clear'))
     app.log('** export error **\n{}'.format("\n".join(lst)))

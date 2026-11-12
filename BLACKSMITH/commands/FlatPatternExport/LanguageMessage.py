@@ -25,8 +25,10 @@ JSON_PATH = THIS_DIR / 'message.json'
 
 
 class LanguageMessage():
+    """Fusion の表示言語に応じたメッセージを提供する。"""
     def __init__(self) -> None:
-        self.langMsg: dict = self._get_languge_dict()
+        """必要なアプリケーション情報と対象一覧を初期化する。"""
+        self.langMsg: dict[str, str] = self._get_languge_dict()
 
 
     def s(self, txt: str) -> str:
@@ -39,11 +41,11 @@ class LanguageMessage():
         return txt
 
 
-    def _get_languge_dict(self) -> dict:
+    def _get_languge_dict(self) -> dict[str, str]:
         '''
         言語のメッセージ辞書
         '''
-        all_dict: dict = self._load_dict()
+        all_dict: dict[str, dict[str, str]] = self._load_dict()
 
         app: core.Application = core.Application.get()
         lang: str = app.executeTextCommand(u'Options.GetUserLanguage')
@@ -54,7 +56,7 @@ class LanguageMessage():
         return all_dict[lang]
 
 
-    def _load_dict(self) -> dict:
+    def _load_dict(self) -> dict[str, dict[str, str]]:
         '''
         json読み込み
         '''

@@ -8,12 +8,15 @@ from ... import config
 def convert_solidBody(
     body: fusion.BRepBody,
     isCreateComponent: bool,
-) -> None:
+) -> tuple[fusion.BRepBody | None, fusion.BRepBody | None]:
 
+    """板金ボディをソリッドに変換し、必要ならコンポーネントに移す。"""
     solid: fusion.BRepBody = _to_solidBody(body)
+    if solid is None:
+        return None, None
 
     if not isCreateComponent:
-        return
+        return solid, None
 
     parentComp: fusion.Component = solid.parentComponent
     beforeTokens = [o.entityToken for o in parentComp.allOccurrences]
@@ -24,70 +27,83 @@ def convert_solidBody(
         if occ.entityToken not in beforeTokens]
 
     if len(diffOccs) < 1:
-        return
+        return moveBody, None
 
     occ: fusion.Occurrence = diffOccs[0]
     proxyBody: fusion.BRepBody = moveBody.createForAssemblyContext(occ)
 
-    config.convert2SolidBody_dict['body'] = proxyBody
+    return moveBody, proxyBody
 
 
-    faces = [f for f in proxyBody.faces if f.geometry.objectType == core.Plane.classType()]
-    face: fusion.BRepFace = max(faces, key=lambda f: f.area)
-
+def clear_pending_conversion() -> None:
+    """保留中の板金変換と終了イベントを解除する。"""
     app: core.Application = core.Application.get()
-    sels: core.Selections = app.userInterface.activeSelections
-    # sels.clear()
-    sels.add(face)
+    handler = config.convert2SolidBody_dict['handler']
+    if handler is not None:
+        app.userInterface.commandTerminated.remove(handler)
+    config.convert2SolidBody_dict['handler'] = None
+    config.convert2SolidBody_dict['body'] = None
 
+
+def set_pending_conversion(body: fusion.BRepBody | None) -> None:
+    """コマンド完了後に使うボディとイベントを登録する。"""
+    clear_pending_conversion()
+    if body is None:
+        return
     app: core.Application = core.Application.get()
-    ui: core.UserInterface = app.userInterface
-
-    onCommandTerminated = MyCommandTerminatedHandler()
-    ui.commandTerminated.add(onCommandTerminated)
-    config.convert2SolidBody_dict['handler'] = onCommandTerminated
+    handler = MyCommandTerminatedHandler()
+    app.userInterface.commandTerminated.add(handler)
+    config.convert2SolidBody_dict['body'] = body
+    config.convert2SolidBody_dict['handler'] = handler
 
 
 class MyCommandTerminatedHandler(adsk.core.ApplicationCommandEventHandler):
-    def __init__(self):
+    """ソリッド変換コマンドの終了を監視する。"""
+    def __init__(self) -> None:
+        """Fusion の終了イベントハンドラを初期化する。"""
         super().__init__()
-    def notify(self, args: core.ApplicationCommandEventArgs):
+    def notify(self, args: core.ApplicationCommandEventArgs) -> None:
+        """変換が正常終了したら板金変換コマンドを起動する。"""
         app: core.Application = core.Application.get()
         ui: core.UserInterface = app.userInterface
 
-        if ui.activeCommand != f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_conv2solid':
+        if args.commandId != f'{config.COMPANY_NAME}_{config.ADDIN_NAME}_conv2solid':
             return
 
         body: fusion.BRepBody = config.convert2SolidBody_dict['body']
+        clear_pending_conversion()
+        if args.terminationReason != core.CommandTerminationReason.CompletedTerminationReason:
+            return
+        if body is None or not body.isValid:
+            return
 
-        faces = [f for f in body.faces if f.geometry.objectType == core.Plane.classType()]
-        face: fusion.BRepFace = max(faces, key=lambda f: f.area)
-
-        sels: core.Selections = app.userInterface.activeSelections
-        sels.clear()
-        sels.add(face)
-
-        cmdDef: core.CommandDefinition = ui.commandDefinitions.itemById('ConvertToSheetMetalCmd')
-        cmdDef.execute()
-
-        # cmds = (
-        #     # u'Commands.Start ConvertToSheetMetalCmd',
-        #     u'NuCommands.CommitCmd',
-        # )
-        # [app.executeTextCommand(cmd) for cmd in cmds]
-
-        config.convert2SolidBody_dict['handler'] = None
+        try:
+            faces = [f for f in body.faces if f.geometry.objectType == core.Plane.classType()]
+            if not faces:
+                raise RuntimeError('Converted body has no planar face')
+            face: fusion.BRepFace = max(faces, key=lambda f: f.area)
+            sels: core.Selections = ui.activeSelections
+            sels.clear()
+            sels.add(face)
+            cmdDef: core.CommandDefinition = ui.commandDefinitions.itemById('ConvertToSheetMetalCmd')
+            if not cmdDef:
+                raise RuntimeError('ConvertToSheetMetalCmd is unavailable')
+            cmdDef.execute()
+        except Exception:
+            app.log(traceback.format_exc())
 
 
 def _to_solidBody(
     body: fusion.BRepBody,
-) -> fusion.BRepBody:
+) -> fusion.BRepBody | None:
 
     # ****
+    """板金ボディと補助形状を結合してソリッドボディを作る。"""
     def get_flat_face(
         body: fusion.BRepBody,
-    ) -> fusion.BRepFace:
+    ) -> fusion.BRepFace | None:
 
+        """面積が最大の平面を取得する。"""
         f: fusion.BRepFace = None
         flatLst = [f for f in body.faces 
             if f.geometry.objectType == core.Plane.classType()]
@@ -103,6 +119,7 @@ def _to_solidBody(
         occ: fusion.Occurrence,
     ) -> fusion.Sketch:
 
+        """対象コンポーネントの XY 平面にスケッチを作る。"""
         plane: fusion.ConstructionPlane = comp.xYConstructionPlane
         skt: fusion.Sketch = None
         if occ:
@@ -116,13 +133,15 @@ def _to_solidBody(
     def create_profile_axis(
         skt: fusion.Sketch,
         length: float,
-    ) -> set:
+    ) -> tuple[fusion.Profile, fusion.SketchLine]:
 
         # *****
+        """回転体用の断面と回転軸を作る。"""
         def init_offset_point(
             pnt: fusion.SketchPoint,
             offset: float,
         ) -> fusion.SketchPoint:
+            """スケッチ点から Y 方向にずらした点を作る。"""
             skt: fusion.Sketch = pnt.parentSketch
 
             p: core.Point3D = pnt.geometry.copy()
@@ -173,6 +192,7 @@ def _to_solidBody(
         axis: fusion.SketchLine,
     ) -> fusion.BRepBody:
 
+        """断面を回転させて補助ボディを作る。"""
         revolveFeats: fusion.RevolveFeatures = comp.features.revolveFeatures
         revolveFeatIpt: fusion.RevolveFeatureInput = revolveFeats.createInput(
             prof,
@@ -196,6 +216,7 @@ def _to_solidBody(
         toolBody: fusion.BRepBody,
     ) -> fusion.BRepBody:
 
+        """補助ボディと対象ボディを結合する。"""
         objs: core.ObjectCollection = core.ObjectCollection.create()
         objs.add(toolBody)
 
@@ -212,8 +233,9 @@ def _to_solidBody(
     def get_occ_body_tokens(
         occ: fusion.Occurrence,
         comp: fusion.Component,
-    ) -> list:
+    ) -> list[str]:
 
+        """対象コンポーネントのボディ識別子を集める。"""
         bodyLst = [b for b in comp.bRepBodies]
         if occ:
             bodyLst = [b.createForAssemblyContext(occ) for b in bodyLst]
@@ -224,10 +246,11 @@ def _to_solidBody(
     def remove_body(
         occ: fusion.Occurrence,
         comp: fusion.Component,
-        beforeTokens: list,
+        beforeTokens: list[str],
         targetVolume: float,
-    ) -> fusion.BRepBody:
+    ) -> list[fusion.BRepBody]:
 
+        """追加されたボディのうち補助ボディを削除する。"""
         bodyLst = [b for b in comp.bRepBodies]
         if occ:
             bodyLst = [b.createForAssemblyContext(occ) for b in bodyLst]

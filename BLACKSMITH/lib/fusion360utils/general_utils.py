@@ -24,14 +24,8 @@ except:
     DEBUG = False
 
 
-def log(message: str, level: adsk.core.LogLevels = adsk.core.LogLevels.InfoLogLevel, force_console: bool = False):
-    """Utility function to easily handle logging in your app.
-
-    Arguments:
-    message -- The message to log.
-    level -- The logging severity level.
-    force_console -- Forces the message to be written to the Text Command window. 
-    """    
+def log(message: str, level: adsk.core.LogLevels = adsk.core.LogLevels.InfoLogLevel, force_console: bool = False) -> None:
+    """メッセージを Fusion のログとコンソールに記録する。"""
     # Always print to console, only seen through IDE.
     print(message)  
 
@@ -46,15 +40,8 @@ def log(message: str, level: adsk.core.LogLevels = adsk.core.LogLevels.InfoLogLe
         app.log(message, level, log_type)
 
 
-def handle_error(name: str, show_message_box: bool = False):
-    """Utility function to simplify error handling.
-
-    Arguments:
-    name -- A name used to label the error.
-    show_message_box -- Indicates if the error should be shown in the message box.
-                        If False, it will only be shown in the Text Command window
-                        and logged to the log file.                        
-    """    
+def handle_error(name: str, show_message_box: bool = False) -> None:
+    """現在の例外情報をログに記録する。"""
 
     log('===== Error =====', adsk.core.LogLevels.ErrorLogLevel)
     log(f'{name}\n{traceback.format_exc()}', adsk.core.LogLevels.ErrorLogLevel)

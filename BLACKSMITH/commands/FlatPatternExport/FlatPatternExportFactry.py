@@ -13,12 +13,14 @@ SUFFIX_MAP = {
 }
 
 class FlatPatternExportFactry():
+    """既存のフラットパターンを書き出す。"""
     def __init__(self) -> None:
+        """必要なアプリケーション情報と対象一覧を初期化する。"""
         self.app: core.Application = core.Application.get()
         self.flatInfos = self._get_all_flatpattern()
 
 
-    def exec_export(self, flatPatternIndexList: list, optionList: list, folderPath: str) -> None:
+    def exec_export(self, flatPatternIndexList: list[int], optionList: list[str], folderPath: str) -> None:
         '''
         エクスポート実行
         '''
@@ -32,7 +34,7 @@ class FlatPatternExportFactry():
         self._exec_export_operation(exportDatas)
 
 
-    def _exec_export_operation(self, exportDatas: list) -> None:
+    def _exec_export_operation(self, exportDatas: list[dict[str, object]]) -> None:
         '''
         エクスポート実行
         '''
@@ -44,7 +46,7 @@ class FlatPatternExportFactry():
                 self._export_3d(exportData)
 
 
-    def _export_dxf(self, exportData: dict) -> None:
+    def _export_dxf(self, exportData: dict[str, object]) -> None:
         '''
         DXFでエクスポート
         '''
@@ -61,7 +63,7 @@ class FlatPatternExportFactry():
         expMgr.execute(dxfOpt)
 
 
-    def _export_3d(self, exportData: dict) -> None:
+    def _export_3d(self, exportData: dict[str, object]) -> None:
         '''
         3Dでエクスポート
         '''
@@ -109,11 +111,12 @@ class FlatPatternExportFactry():
         # tmpDoc.close(False)
 
 
-    def _get_path(self, info: dict, optionList: list, folderPath: str, exportDatas: list) -> list:
+    def _get_path(self, info: dict[str, object], optionList: list[str], folderPath: str, exportDatas: list[dict[str, object]]) -> list[dict[str, object]]:
         '''
         ユニークなファイルパス取得
         '''
         def is_overlap(path: pathlib.Path) -> bool:
+            """同名のファイルまたは出力予定があるか調べる。"""
             if path.exists():
                 return True
             if str(path) in [x['path'] for x in exportDatas]:
@@ -155,7 +158,7 @@ class FlatPatternExportFactry():
         return paths
 
 
-    def _get_stem_name(self, info: dict):
+    def _get_stem_name(self, info: dict[str, object]) -> str:
         '''
         仮ファイル名取得
         '''
@@ -167,7 +170,7 @@ class FlatPatternExportFactry():
         return re.sub(r'[\\|/|:|?|.|"|<|>|\|]', '_', stem)
 
 
-    def _get_all_flatpattern(self) -> list:
+    def _get_all_flatpattern(self) -> list[dict[str, object]]:
         '''
         全てのフラットパターン取得
         '''
@@ -179,7 +182,7 @@ class FlatPatternExportFactry():
         return infos
 
 
-    def _create_flat_info(self, comp: fusion.Component) -> dict:
+    def _create_flat_info(self, comp: fusion.Component) -> dict[str, object]:
         '''
         フラットパターン情報
         '''

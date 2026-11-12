@@ -3,22 +3,24 @@ from . import commands
 from .lib import fusion360utils as futil
 
 
-def run(context):
+def run(context: dict[str, object]) -> None:
+    """アドインの各コマンドを起動する。"""
     try:
         # This will run the start function in each of your commands as defined in commands/__init__.py
         commands.start()
 
     except:
         futil.handle_error('run')
-
-
-def stop(context):
-    try:
-        # Remove all of the event handlers your app has created
         futil.clear_handlers()
 
-        # This will run the start function in each of your commands as defined in commands/__init__.py
+
+def stop(context: dict[str, object]) -> None:
+    """アドインのコマンドとイベントハンドラを解除する。"""
+    try:
+        # Remove command controls and their application-level handlers first.
         commands.stop()
 
     except:
         futil.handle_error('stop')
+    finally:
+        futil.clear_handlers()
