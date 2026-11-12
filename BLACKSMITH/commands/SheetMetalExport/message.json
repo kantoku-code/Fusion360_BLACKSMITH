@@ -6,7 +6,11 @@
         "Folder": "Ordner",
         "Format": "Format",
         "Use the body name as the export file name.": "Verwenden Sie den Namen des Körpers als Namen für die Exportdatei.",
-        "Place a check mark in the body/component to be exported": "Aktivieren Sie die Kontrollkästchen für die zu exportierenden Körper/Komponenten"
+        "Place a check mark in the body/component to be exported": "Aktivieren Sie die Kontrollkästchen für die zu exportierenden Körper/Komponenten",
+        "Table": "Tabelle",
+        "Checkbox": "Kontrollkästchen",
+        "body name": "Körpername",
+        "comp name": "Komponentenname"
     },
     "en-US": {
         "jp": "英語",
@@ -15,7 +19,11 @@
         "Folder": "Folder",
         "Format": "Format",
         "Use the body name as the export file name.": "Use the body name as the export file name.",
-        "Place a check mark in the body/component to be exported": "Place a check mark in the body/component to be exported"
+        "Place a check mark in the body/component to be exported": "Place a check mark in the body/component to be exported",
+        "Table": "Table",
+        "Checkbox": "Checkbox",
+        "body name": "body name",
+        "comp name": "comp name"
     },
     "es-ES": {
         "jp": "スペイン語",
@@ -24,7 +32,11 @@
         "Folder": "Carpeta",
         "Format": "Formato",
         "Use the body name as the export file name.": "Utilice el nombre del cuerpo como nombre del archivo de exportación.",
-        "Place a check mark in the body/component to be exported": "Marque el cuerpo/componente que desea exportar"
+        "Place a check mark in the body/component to be exported": "Marque el cuerpo/componente que desea exportar",
+        "Table": "Tabla",
+        "Checkbox": "Casilla de verificación",
+        "body name": "Nombre del cuerpo",
+        "comp name": "Nombre del componente"
     },
     "fr-FR": {
         "jp": "フランス語",
@@ -33,7 +45,11 @@
         "Folder": "Dossier",
         "Format": "Format",
         "Use the body name as the export file name.": "Utiliser le nom du corps comme nom de fichier d'exportation.",
-        "Place a check mark in the body/component to be exported": "Cocher la case du corps/composant à exporter"
+        "Place a check mark in the body/component to be exported": "Cocher la case du corps/composant à exporter",
+        "Table": "Tableau",
+        "Checkbox": "Case à cocher",
+        "body name": "Nom du corps",
+        "comp name": "Nom du composant"
     },
     "it-IT": {
         "jp": "イタリア語",
@@ -42,7 +58,11 @@
         "Folder": "Cartella",
         "Format": "Formato",
         "Use the body name as the export file name.": "Utilizzare il nome del corpo come nome del file di esportazione.",
-        "Place a check mark in the body/component to be exported": "Mettere un segno di spunta nel corpo/componente da esportare"
+        "Place a check mark in the body/component to be exported": "Mettere un segno di spunta nel corpo/componente da esportare",
+        "Table": "Tabella",
+        "Checkbox": "Casella di controllo",
+        "body name": "Nome del corpo",
+        "comp name": "Nome del componente"
     },
     "ja-JP": {
         "jp": "日本語",
@@ -51,7 +71,11 @@
         "Folder": "フォルダ",
         "Format": "フォーマット",
         "Use the body name as the export file name.": "ボディ名をエクスポートファイル名に使用する。",
-        "Place a check mark in the body/component to be exported": "エクスポートするボディ/コンポーネントにチェックマークを入れて下さい"
+        "Place a check mark in the body/component to be exported": "エクスポートするボディ/コンポーネントにチェックマークを入れて下さい",
+        "Table": "表",
+        "Checkbox": "チェックボックス",
+        "body name": "ボディ名",
+        "comp name": "コンポーネント名"
     },
     "ko-KR": {
         "jp": "韓国語",
@@ -59,17 +83,25 @@
         "Create and export a flat pattern from a SheetMetal Body.": "시트메탈 바디에서 평면 패턴 생성 및 내보내기.",
         "Folder": "폴더",
         "Format": "형식",
-        "Use the body name as the export file name.": "본문 이름을 내보내기 파일 이름으로 사용합니다.",
-        "Place a check mark in the body/component to be exported": "내보낼 본문/컴포넌트에 체크 표시를 합니다"
+        "Use the body name as the export file name.": "바디 이름을 내보내기 파일 이름으로 사용합니다.",
+        "Place a check mark in the body/component to be exported": "내보낼 바디 또는 컴포넌트를 선택합니다",
+        "Table": "표",
+        "Checkbox": "확인란",
+        "body name": "바디 이름",
+        "comp name": "컴포넌트 이름"
     },
     "zh-CN": {
         "jp": "中国語",
         "Export": "导出",
-        "Create and export a flat pattern from a SheetMetal Body.": "从钣金车身创建并导出平面图案。",
+        "Create and export a flat pattern from a SheetMetal Body.": "从钣金实体创建并导出展开图。",
         "Folder": "文件夹",
         "Format": "格式",
-        "Use the body name as the export file name.": "使用正文名称作为导出文件名称。",
-        "Place a check mark in the body/component to be exported": "在要导出的主体/组件上打上一个复选标记"
+        "Use the body name as the export file name.": "使用实体名称作为导出文件名。",
+        "Place a check mark in the body/component to be exported": "勾选要导出的实体或组件",
+        "Table": "表格",
+        "Checkbox": "复选框",
+        "body name": "实体名称",
+        "comp name": "组件名称"
     },
     "pl-PL": {
         "jp": "ポーランド",
@@ -77,8 +109,12 @@
         "Create and export a flat pattern from a SheetMetal Body.": "Utwórz i wyeksportuj płaski wzór z korpusu SheetMetal.",
         "Folder": "Folder",
         "Format": "Format",
-        "Use the body name as the export file name.": "Użyj nazwy ciała jako nazwy pliku eksportu.",
-        "Place a check mark in the body/component to be exported": "Umieść zaznaczenie w korpusie/komponencie, który ma być eksportowany"
+        "Use the body name as the export file name.": "Użyj nazwy bryły jako nazwy pliku eksportu.",
+        "Place a check mark in the body/component to be exported": "Umieść zaznaczenie w korpusie/komponencie, który ma być eksportowany",
+        "Table": "Tabela",
+        "Checkbox": "Pole wyboru",
+        "body name": "Nazwa bryły",
+        "comp name": "Nazwa komponentu"
     },
     "pt-BR": {
         "jp": "ポルトガル_ブラジル",
@@ -87,7 +123,11 @@
         "Folder": "Pasta",
         "Format": "Formato",
         "Use the body name as the export file name.": "Use o nome do corpo como o nome do arquivo de exportação.",
-        "Place a check mark in the body/component to be exported": "Colocar uma marca de verificação no corpo/componente a ser exportado"
+        "Place a check mark in the body/component to be exported": "Colocar uma marca de verificação no corpo/componente a ser exportado",
+        "Table": "Tabela",
+        "Checkbox": "Caixa de seleção",
+        "body name": "Nome do corpo",
+        "comp name": "Nome do componente"
     },
     "tr-TR": {
         "jp": "トルコ",
@@ -96,6 +136,58 @@
         "Folder": "Klasör",
         "Format": "Biçim",
         "Use the body name as the export file name.": "Dışa aktarma dosyası adı olarak gövde adını kullanın.",
-        "Place a check mark in the body/component to be exported": "Dışa aktarılacak gövdeye/bileşene bir onay işareti koyun"
+        "Place a check mark in the body/component to be exported": "Dışa aktarılacak gövdeye/bileşene bir onay işareti koyun",
+        "Table": "Tablo",
+        "Checkbox": "Onay kutusu",
+        "body name": "Gövde adı",
+        "comp name": "Bileşen adı"
+    },
+    "zh-TW": {
+        "Export": "匯出",
+        "Create and export a flat pattern from a SheetMetal Body.": "從鈑金本體建立展開圖並匯出。",
+        "Folder": "資料夾",
+        "Format": "格式",
+        "Use the body name as the export file name.": "使用本體名稱作為匯出檔名。",
+        "Place a check mark in the body/component to be exported": "勾選要匯出的本體或元件",
+        "Table": "表格",
+        "Checkbox": "核取方塊",
+        "body name": "本體名稱",
+        "comp name": "元件名稱"
+    },
+    "cs-CZ": {
+        "Export": "Exportovat",
+        "Create and export a flat pattern from a SheetMetal Body.": "Vytvořit a exportovat rozvin z plechového tělesa.",
+        "Folder": "Složka",
+        "Format": "Formát",
+        "Use the body name as the export file name.": "Použít název tělesa jako název exportovaného souboru.",
+        "Place a check mark in the body/component to be exported": "Zaškrtněte těleso nebo komponentu, kterou chcete exportovat",
+        "Table": "Tabulka",
+        "Checkbox": "Zaškrtávací políčko",
+        "body name": "Název tělesa",
+        "comp name": "Název komponenty"
+    },
+    "hu-HU": {
+        "Export": "Exportálás",
+        "Create and export a flat pattern from a SheetMetal Body.": "Teríték létrehozása és exportálása lemeztestből.",
+        "Folder": "Mappa",
+        "Format": "Formátum",
+        "Use the body name as the export file name.": "A test nevének használata az exportált fájl neveként.",
+        "Place a check mark in the body/component to be exported": "Jelölje be az exportálni kívánt testet vagy komponenst",
+        "Table": "Táblázat",
+        "Checkbox": "Jelölőnégyzet",
+        "body name": "Test neve",
+        "comp name": "Komponens neve"
+    },
+    "ru-RU": {
+        "Export": "Экспорт",
+        "Create and export a flat pattern from a SheetMetal Body.": "Создать и экспортировать развертку листового тела.",
+        "Folder": "Папка",
+        "Format": "Формат",
+        "Use the body name as the export file name.": "Использовать имя тела в качестве имени экспортируемого файла.",
+        "Place a check mark in the body/component to be exported": "Отметьте тело или компонент для экспорта",
+        "Table": "Таблица",
+        "Checkbox": "Флажок",
+        "body name": "Имя тела",
+        "comp name": "Имя компонента"
     }
 }

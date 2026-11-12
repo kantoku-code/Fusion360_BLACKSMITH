@@ -25,7 +25,7 @@
     },
     "fr-FR": {
         "jp": "フランス語",
-        "Convert to Solid": "Convert to Solid",
+        "Convert to Solid": "Convertir en solide",
         "Convert sheet metal body to solid body": "Convertir le corps en tôle en corps solide",
         "Sheet Metal Body": "Corps en tôle",
         "Create Components from Bodies": "Créer des composants à partir de corps",
@@ -59,15 +59,15 @@
         "jp": "中国語",
         "Convert to Solid": "转换为实体",
         "Convert sheet metal body to solid body": "将金属板体转换为实体体",
-        "Sheet Metal Body": "钣金车身",
-        "Create Components from Bodies": "从身体上创建组件",
+        "Sheet Metal Body": "钣金实体",
+        "Create Components from Bodies": "从实体创建组件",
         "Select sheet metal body to convert": "选择要转换的钣金件"
     },
     "pl-PL": {
         "jp": "ポーランド",
-        "Convert to Solid": "Convert to Solid",
-        "Convert sheet metal body to solid body": "Convert sheet metal body to solid body",
-        "Sheet Metal Body": "Sheet Metal Body",
+        "Convert to Solid": "Przekształć w bryłę",
+        "Convert sheet metal body to solid body": "Przekształć bryłę blachową w bryłę",
+        "Sheet Metal Body": "Bryła blachowa",
         "Create Components from Bodies": "Tworzenie komponentów z korpusów",
         "Select sheet metal body to convert": "Wybierz ciało z blachy do konwersji"
     },
@@ -77,7 +77,7 @@
         "Convert sheet metal body to solid body": "Converter corpo em chapa metálica em corpo sólido",
         "Sheet Metal Body": "Corpo em chapa metálica",
         "Create Components from Bodies": "Criar Componentes a partir de Corpos",
-        "Select sheet metal body to convert": "Seleccionar corpo de chapa para converter"
+        "Select sheet metal body to convert": "Selecione o corpo de chapa metálica para converter"
     },
     "tr-TR": {
         "jp": "トルコ",
@@ -86,5 +86,33 @@
         "Sheet Metal Body": "Sac Metal Gövde",
         "Create Components from Bodies": "Gövdelerden Bileşen Oluşturma",
         "Select sheet metal body to convert": "Dönüştürmek için sac gövde seçin"
+    },
+    "zh-TW": {
+        "Convert to Solid": "轉換為實體",
+        "Convert sheet metal body to solid body": "將鈑金本體轉換為實體本體",
+        "Sheet Metal Body": "鈑金本體",
+        "Create Components from Bodies": "從本體建立元件",
+        "Select sheet metal body to convert": "選取要轉換的鈑金本體"
+    },
+    "cs-CZ": {
+        "Convert to Solid": "Převést na objemové těleso",
+        "Convert sheet metal body to solid body": "Převést plechové těleso na objemové těleso",
+        "Sheet Metal Body": "Plechové těleso",
+        "Create Components from Bodies": "Vytvořit komponenty z těles",
+        "Select sheet metal body to convert": "Vyberte plechové těleso k převodu"
+    },
+    "hu-HU": {
+        "Convert to Solid": "Átalakítás szilárdtestté",
+        "Convert sheet metal body to solid body": "Lemeztest átalakítása szilárdtestté",
+        "Sheet Metal Body": "Lemeztest",
+        "Create Components from Bodies": "Komponensek létrehozása testekből",
+        "Select sheet metal body to convert": "Válassza ki az átalakítandó lemeztestet"
+    },
+    "ru-RU": {
+        "Convert to Solid": "Преобразовать в твердое тело",
+        "Convert sheet metal body to solid body": "Преобразовать листовое тело в твердое тело",
+        "Sheet Metal Body": "Листовое тело",
+        "Create Components from Bodies": "Создать компоненты из тел",
+        "Select sheet metal body to convert": "Выберите листовое тело для преобразования"
     }
 }

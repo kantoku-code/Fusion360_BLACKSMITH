@@ -1,13 +1,28 @@
 {
-	"autodeskProduct":	"Fusion360",
-	"type":	"addin",
-	"id":	"312260ee-eac3-4a42-b1e3-ab4ae9fd658f",
-	"author":	"kantoku",
-	"description":	{
-		"":	"SheetMetal support"
-	},
-	"version":	"0.0.13",
-	"runOnStartup":	false,
-	"supportedOS":	"windows|mac",
-	"editEnabled":	true
+    "autodeskProduct": "Fusion",
+    "type": "addin",
+    "id": "312260ee-eac3-4a42-b1e3-ab4ae9fd658f",
+    "author": "kantoku",
+    "description": {
+        "": "Tools for working with sheet metal bodies and flat patterns.",
+        "2052": "用于处理钣金实体和展开图的工具。",
+        "1028": "用於處理鈑金本體和展開圖的工具。",
+        "1029": "Nástroje pro práci s plechovými tělesy a rozviny.",
+        "1033": "Tools for working with sheet metal bodies and flat patterns.",
+        "1036": "Outils pour travailler avec des corps de tôlerie et des dépliés.",
+        "1031": "Werkzeuge für die Arbeit mit Blechkörpern und Abwicklungen.",
+        "1038": "Eszközök lemeztestek és terítékek kezeléséhez.",
+        "1040": "Strumenti per lavorare con corpi in lamiera e sviluppi piani.",
+        "1041": "シートメタルボディとフラットパターンを扱うためのツールです。",
+        "1042": "판금 바디와 전개 패턴 작업을 위한 도구입니다.",
+        "1045": "Narzędzia do pracy z bryłami blachowymi i rozwinięciami.",
+        "1046": "Ferramentas para trabalhar com corpos de chapa metálica e planificações.",
+        "1049": "Инструменты для работы с листовыми телами и развертками.",
+        "1034": "Herramientas para trabajar con cuerpos de chapa y patrones planos.",
+        "1055": "Sac metal gövdeler ve açınımlar ile çalışmak için araçlar."
+    },
+    "version": "0.1.0",
+    "runOnStartup": true,
+    "supportedOS": "windows|mac",
+    "editEnabled": true
 }

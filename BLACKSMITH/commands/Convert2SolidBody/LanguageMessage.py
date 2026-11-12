@@ -1,66 +1,10 @@
-import adsk.core as core
-import adsk.fusion as fusion
-import pathlib
-import json
+"""ソリッド変換用の翻訳ファイルを指定する。"""
 
-# ** debug **
-DEBUG_LANG_MODE = False
-LANGS = [
-    "de-DE",
-    "en-US",
-    "es-ES",
-    "fr-FR",
-    "it-IT",
-    "ja-JP",
-    "ko-KR",
-    "zh-CN",
-    "pl-PL",# ポーランド
-    "pt-BR",# ポルトガル-ブラジル
-    "tr-TR",# トルコ
-]
-DEBUG_LANG = LANGS[5]
+from pathlib import Path
 
-THIS_DIR = pathlib.Path(__file__).resolve().parent
-JSON_PATH = THIS_DIR / 'message.json'
+from ...localization import LanguageMessage as _LanguageMessage
 
 
-class LanguageMessage():
-    """Fusion の表示言語に応じたメッセージを提供する。"""
+class LanguageMessage(_LanguageMessage):
     def __init__(self) -> None:
-        """必要なアプリケーション情報と対象一覧を初期化する。"""
-        self.langMsg: dict[str, str] = self._get_languge_dict()
-
-
-    def s(self, txt: str) -> str:
-        '''
-        言語変換
-        '''
-        if txt in self.langMsg:
-            return self.langMsg[txt]
-
-        return txt
-
-
-    def _get_languge_dict(self) -> dict[str, str]:
-        '''
-        言語のメッセージ辞書
-        '''
-        all_dict: dict[str, dict[str, str]] = self._load_dict()
-
-        app: core.Application = core.Application.get()
-        lang: str = app.executeTextCommand(u'Options.GetUserLanguage')
-
-        if DEBUG_LANG_MODE:
-            lang = DEBUG_LANG
-
-        return all_dict[lang]
-
-
-    def _load_dict(self) -> dict[str, dict[str, str]]:
-        '''
-        json読み込み
-        '''
-        with open(str(JSON_PATH), encoding="utf-8") as f:
-            jsn = json.load(f)
-
-        return jsn
+        super().__init__(Path(__file__).with_name("message.json"))

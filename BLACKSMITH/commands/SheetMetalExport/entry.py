@@ -24,7 +24,7 @@ CMD_Description = _lm.s('Create and export a flat pattern from a SheetMetal Body
 IS_PROMOTED = True
 
 # TODO *** コマンドボタンが作成される場所を定義します。 ***
-# これは、ワークスペース、タブ、パネル、および 
+# これは、ワークスペース、タブ、パネル、および
 # コマンドの横に挿入されます。配置するコマンドを指定しない場合は
 # 最後に挿入されます。
 
@@ -125,7 +125,7 @@ def command_created(args: core.CommandCreatedEventArgs) -> None:
     # フォルダ
     tableFolder: core.TableCommandInput = inputs.addTableCommandInput(
         'tableFolderId',
-        'Table',
+        _lm.s('Table'),
         0,
         '5:1'
     )
@@ -186,7 +186,7 @@ def command_created(args: core.CommandCreatedEventArgs) -> None:
     global _table
     _table = flatInputs.addTableCommandInput(
         '_tableId',
-        'Table',
+        _lm.s('Table'),
         0,
         '1:3:3'
     )
@@ -202,7 +202,7 @@ def command_created(args: core.CommandCreatedEventArgs) -> None:
     for idx, info in enumerate(_fact.sheetInfos):
         chk: core.BoolValueCommandInput = flatInputs.addBoolValueInput(
             f'check_{idx}',
-            'Checkbox',
+            _lm.s('Checkbox'),
             True,
             '',
             info["show"]
@@ -211,14 +211,14 @@ def command_created(args: core.CommandCreatedEventArgs) -> None:
 
         bodyName: core.StringValueCommandInput = flatInputs.addStringValueInput(
             f'body_{idx}',
-            'body name',
+            _lm.s('body name'),
             info["native"].name,)
         bodyName.isReadOnly = True
         _table.addCommandInput(bodyName, idx, 1)
 
         compName: core.StringValueCommandInput = flatInputs.addStringValueInput(
             f'comp_{idx}',
-            'comp name',
+            _lm.s('comp name'),
            info["native"].parentComponent.name,)
         compName.isReadOnly = True
         _table.addCommandInput(compName, idx, 2)
